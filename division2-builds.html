@@ -81,7 +81,7 @@
       pure boss piece (falls off in kill-starved boss standoff). Strongest in spongy e10 waves.
     - Contractor's (gloves): +8% DtA + Petrov +10% LMG. Armor-punching, LMG sections w/ heavy white bars.
     - Ceska/Grupo (helm or other): crit filler. Get CHC to 60% cap, rest into CHD toward +120% CHD.
-      Ceska = +8% CHC (while climbing); Grupo = +15% CHD (once capped).
+      Ceska = +8% CHC (while climbing); Grupo = +13% CHD (once capped).
     - Salvo (holster): +10% RoF from one slot. Loses ~1%/bullet to perfect Ceska on paper but builds
       Striker stacks 10% faster — feels strong in e10 practice.
     - Fox's Prayer (knees): QUESTIONABLE / likely OUT. Attribute Tax math: Ceska/Grupo crit beats Fox's
@@ -385,6 +385,7 @@
   .dmg-ref-cat { display: grid; grid-template-columns: 104px 1fr; gap: 10px; font-size: 12px; line-height: 1.5; color: var(--text-dim); align-items: start; }
   .dmg-ref-lab { font-weight: 700; color: var(--text-mid); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; padding-top: 1px; }
   .dmg-ref-note { font-size: 11px; color: var(--text-dim); font-style: italic; margin-top: 9px; line-height: 1.5; }
+  .dmg-ref-sub { font-style: italic; opacity: 0.75; }
   .dmg-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   @media (max-width: 720px) { .dmg-cols { grid-template-columns: 1fr; } }
   .dmg-col { background: var(--panel); border: 1px solid var(--line); padding: 14px 16px; }
@@ -541,7 +542,7 @@
   <header>
     <div class="logo"></div>
     <h1>Division 2<small>Build Reference</small></h1>
-    <button class="version" onclick="renderChangelog()">v0000003</button>
+    <button class="version" onclick="renderChangelog()">v0000004</button>
   </header>
 
   <div class="tabs" id="tabs"></div>
@@ -559,36 +560,45 @@
 const ITEMS = {
   // ---- Weapons: Assault Rifles ----
   "St. Elmo's Engine": { quality: "exotic", type: "AR", talent: "Actum Est — shooting stacks up to 100; at 100 the next magazine is loaded with Shock ammo",
-    cores: ["Assault Rifle Damage", "Health Damage"], thirdAttr: "rerollable", aka: "exotic LVOA-C; 70+1 mag; top-tier AR" },
+    cores: ["Assault Rifle Damage", "Health Damage"], thirdAttr: "rerollable (random 3rd DPS stat — reroll or farm for a better drop)", builtInMods: "Optic +15% CHD, Muzzle +15% CHC, Grip +10% Weapon Handling, Mag +30 rounds (all fixed)", aka: "exotic LVOA-C; top-tier AR" },
   "Lexington":         { quality: "named",  type: "AR", innate: "DTTOC", note: "+5% base dmg over M4; strong high-RoF AR for Striker stacking" },
   "Police M4":         { quality: "high",   type: "AR", note: "top-tier baseline AR — high RoF, clean handling; workhorse for Striker builds" },
   "FAMAS":             { quality: "high",   type: "AR", note: "FAMAS 2000 — top-tier AR, very high RoF" },
-  "Capacitor":         { quality: "exotic", type: "AR", talent: "Capacitance — each hit +1.5% Skill Damage, up to +60%; best with autonomous skills (turret/drone)",
-    cores: ["Assault Rifle Damage", "Skill Damage"], thirdStat: "Skill Dmg / Haste", aka: "exotic PDR-C; the skill-build AR" },
+  "Capacitor":         { quality: "exotic", type: "AR", talent: "Capacitance — shooting builds stacks up to 40, each +1.5% Skill Damage; after 5s stacks decay 1/sec. Also +7.5% Weapon Damage per Tech Skill Tier.",
+    cores: ["Assault Rifle Damage", "Damage to Armor"], thirdAttr: "rerollable (Skill Dmg / Haste for skill builds)", coreNote: "exception to the AR class pattern — 2nd core is Damage to Armor, not Health Damage",
+    builtInMods: "Optic +10% CHC, Muzzle +30% CHD, Mag +11 rounds, Grip +10% Weapon Handling (all fixed)", aka: "exotic PDR-C; the skill-build AR" },
   "Harmony":           { quality: "named",  type: "AR", talent: "Perfect Optimist — weapon dmg ramps the longer you stay in a firefight" },
   "Pyromaniac":        { quality: "named",  type: "AR", talent: "Perfectly Ignited — bonus dmg vs burning targets" },
+  "Bighorn":           { quality: "exotic", type: "AR",
+    cores: ["Assault Rifle Damage", "Critical Hit Damage"], thirdAttr: "rerollable", coreNote: "exception to the AR class pattern — 2nd core is Critical Hit Damage, not Health Damage" },
   "Ouroboros":         { quality: "exotic", type: "SMG", talent: "Rule Them All — when a status effect is applied to you, 50% of your next magazine applies that same status effect to enemies (combat only)",
     cores: ["SMG Damage", "Critical Hit Chance"], thirdAttr: "rerollable (DTTOOC / DTA)",
+    builtInMods: "Optic +10% CHD, Underbarrel +10% CHC, Mag +25% Reload Speed, Muzzle +10% Rate of Fire (all fixed)",
     aka: "exotic Vector SBR 9mm variant; ~1500 base RPM (highest fire rate); Paradise Lost Incursion only" },
   "Vector SBR":        { quality: "high",   type: "SMG", cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], note: "base Vector — high burst DPS (.45 or 9mm); Dark Winter/Ouroboros are its named/exotic variants" },
   "SIG MPX":           { quality: "high",   type: "SMG", cores: ["SMG Damage", "Critical Hit Chance"], note: "sustained mid-range control SMG" },
-  "Backfire":          { quality: "exotic", type: "SMG", talent: "self-igniting exotic SMG (SMG-loot farm)", cores: ["SMG Damage", "Critical Hit Chance"], thirdAttr: "rerollable" },
+  "Backfire":          { quality: "exotic", type: "SMG", talent: "Payment in Kind — dealing damage stacks +2% CHD up to 100 (10s), for +200% CHD at max. On reload, applies a 10s bleed to yourself dealing 0.5% armor damage per stack (max Hazard Protection negates the bleed).",
+    cores: ["SMG Damage", "Critical Hit Chance"], thirdAttr: "rerollable",
+    builtInMods: "Optic +15% CHC, Muzzle +15% CHD, Mag +20 rounds, Grip +10% Stability (all fixed)",
+    aka: "exotic SIG MPX — negate the self-bleed with max HazPro / Nurse's Kneepads" },
 
   // ---- Weapons: LMGs ----
   "M249B":                { quality: "high",   type: "LMG", laser: false, aka: "M249B = MK46 (same 249B-family weapon, different looks): high base dmg, ~180 rounds, NO laser rail. For pulse builds use the Tactical M249 Para instead — it takes the laser but has lower base dmg." },
   "Tactical M249 Para":   { quality: "high",   type: "LMG", laser: true, aka: "249B-family variant with the laser rail (for pulse builds), but lower base dmg + worse handling than the MK46/M249B." },
   "GR9":                  { quality: "high",   type: "LMG", laser: false, note: "high-RoF LMG, strong Striker/Heartbreaker stacking option" },
   "Dare":                 { quality: "named",  type: "LMG", talent: "Perfect Flatline — reloading amplifies weapon dmg" },
-  "Bluescreen":           { quality: "exotic", type: "LMG", talent: "exotic LMG — 200-round mag with crowd-control shock effect", cores: ["LMG Damage", "Critical Hit Chance"] },
+  "Bluescreen":           { quality: "exotic", type: "LMG", talent: "Disruptor Rounds — shooting marks enemies and stacks up to 50 on you. Deploying a non-shield skill clears stacks and triggers an effect on marked targets scaling with stack count: 1-10 pulse, 11-25 +disrupt, 26-49 +disorient, 50 also hits hostiles within 10m (triggers instantly if a marked target dies).",
+    cores: ["LMG Damage", "Damage to Targets Out of Cover"], thirdAttr: "rerollable",
+    builtInMods: "Optic +20% Reload Speed, Mag +15% Weapon Handling, Grip +10% Stability, Muzzle +20% Rate of Fire (all fixed)" },
 
   // ---- Weapons: Shotguns ----
   "Stack Broker":  { quality: "named",  type: "Shotgun", talent: "free talent slot (rolls any talent) — flexible named SIX12" },
   "ACS-12":        { quality: "high",   type: "Shotgun", note: "full-auto shotgun — high sustained close-range DPS" },
   "Lefty":         { quality: "named",  type: "Shotgun", talent: "Perfect Sledgehammer — landing a hit grants +20% DTA for a short window; must be in-hand when a grenade detonates to proc (per build note)" },
   "Rock and Roll": { quality: "named",  type: "Shotgun", talent: "Perfectly Extra — bonus dmg / handling ramp" },
-  "Scorpio":       { quality: "exotic", type: "Shotgun", talent: "Septic Shock — hits stack venom (poison/disorient/shock); at 7 stacks the target takes +20% dmg from all sources",
-    cores: ["Shotgun Damage", "Critical Hit Damage"], thirdAttr: "rerollable (best left DTTOOC)",
-    builtInMods: "+10% Critical Hit Chance (fixed, baked in)",
+  "Scorpio":       { quality: "exotic", type: "Shotgun", talent: "Septic Shock — hits apply venom stacks (last 10s): 2 poison, 4 disorient, 6 shock, 9 target takes +20% damage from all sources (stacks stop increasing). Status durations scale with % of pellets that hit.",
+    cores: ["Shotgun Damage", "Damage to Armor"], thirdAttr: "rerollable (best left DTTOOC)",
+    builtInMods: "Optic +10% CHC, Mag +10% Reload Speed, Grip +10% Weapon Handling, Muzzle +10% Stability (all fixed)",
     aka: "exotic SIX12; the status/debuff shotgun" },
   "Dark Winter":       { quality: "named", type: "SMG", talent: "Perfect Killer — a crit kill grants +50% CHD for 10s",
     cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], thirdAttr: "rerollable (DTTOOC BIS)",
@@ -597,7 +607,7 @@ const ITEMS = {
     cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], thirdAttr: "rerollable (DTTOOC)",
     aka: "high-end Vector; takes full mods unlike Dark Winter's fixed talent" },
   "M870":              { quality: "high", type: "Shotgun", talent: "rollable (Killer)",
-    cores: ["Shotgun Damage", "Critical Hit Damage"], thirdAttr: "rerollable",
+    cores: ["Shotgun Damage", "Damage to Armor"], thirdAttr: "rerollable",
     aka: "pump-action; highest per-shot dmg, one-taps reds/purples; needs aim. Tsunami = named M870" },
   "Tsunami":           { quality: "named", type: "Shotgun", aka: "named M870" },
   "Mechanical Animal": { quality: "named", type: "AR", talent: "Future Perfection — kills grant a temporary Skill Tier boost (Overcharge at highest tiers)",
@@ -608,12 +618,13 @@ const ITEMS = {
 
   // ---- Weapons: Marksman / Rifle ----
   "Everlasting Gaze": { quality: "named", type: "Rifle", talent: "Perfect Perpetuation", note: "headshots boost status effect dmg + duration" },
+  "Ravenous":         { quality: "exotic", type: "Rifle",
+    cores: ["Rifle Damage", "Damage to Armor"], thirdAttr: "rerollable", coreNote: "exception to the Rifle class pattern — 2nd core is Damage to Armor, not Critical Hit Damage" },
 
   // ---- Weapons: Pistols / flex ----
   "586 Magnum":     { quality: "named", type: "Pistol", talent: "Perfect Finisher" },
   "Mosquito":       { quality: "exotic", type: "Pistol" },
   "The Mop":        { quality: "named", type: "Shotgun", aka: "named SIX12 — +10% Armor on Kill (survival pick; stacks with Gunner + HF for ~40% AoK)" },
-  "Backfire":       { quality: "exotic", type: "SMG", aka: "exotic SIG MPX — Payment in Kind: stacks CHD on hits, bleeds you on reload (negate with HazPro / Nurse's Kneepads)" },
   "Sidearm (flex)": { quality: "high",  type: "Pistol" },
 
   // ---- Gear: Sets ----
@@ -699,6 +710,252 @@ const ITEMS = {
   "Flex (HB set or named)": { quality: "set" }
 };
 
+// ===== BRAND SETS — authoritative bonus table (verified against in-game brand list) =====
+// b1/b2/b3 = the 1/2/3-piece set bonuses, verbatim. `dmg` tags which bonuses feed a Roll Advisor
+// field, so the reference block renders from here (one source of truth — no hand-maintained drift).
+// dmg entries: { pc: 1|2|3, field: 'CHC'|'CHD'|'WD'|'WT'|'DtA'|'DtH', val: number, wep?: 'SMG'|... }
+//   WD = all-weapon damage ; WT = weapon-type damage (only counts for that weapon)
+const BRANDS = {
+  "5.11 Tactical":               { b1:"+30% Health", b2:"+30% Incoming Repairs", b3:"+30% Hazard Protection", dmg:[] },
+  "Airaldi Holdings":            { b1:"+10% Marksman Rifle Damage", b2:"+13% Headshot Damage", b3:"+5% Damage to Armor",
+                                   dmg:[{pc:1,field:'WT',val:10,wep:'MMR'},{pc:3,field:'DtA',val:5}] },
+  "Alps Summit Armament":        { b1:"+18% Skill Repair", b2:"+30% Skill Duration", b3:"+30% Skill Haste", dmg:[] },
+  "Badger Tuff":                 { b1:"+10% Shotgun Damage", b2:"+5% Total Armor", b3:"+15% Armor on Kill",
+                                   dmg:[{pc:1,field:'WT',val:10,wep:'Shotgun'}] },
+  "Belstone Armory":             { b1:"+1% Armor Regen", b2:"+10% Armor on Kill", b3:"+45% Incoming Repairs", dmg:[] },
+  "Brazos de Arcabuz":           { b1:"+10% Skill Haste", b2:"+1 Skill Tier", b3:"+50% Magazine Size", dmg:[] },
+  "Česká Výroba S.R.O.":         { b1:"+8% Critical Hit Chance", b2:"+20% Hazard Protection", b3:"+90% Health",
+                                   dmg:[{pc:1,field:'CHC',val:8}] },
+  "China Light Industries":      { b1:"+15% Explosive Damage", b2:"+20% Skill Haste", b3:"+25% Status Effects", dmg:[] },
+  "Douglas & Harding":           { b1:"+20% Pistol Damage", b2:"+30% Stability", b3:"+50% Accuracy", dmg:[] },
+  "Electrique":                  { b1:"+10% Status Effects", b2:"+20% Shock Resistance", b3:"+30% SMG Damage",
+                                   dmg:[{pc:3,field:'WT',val:30,wep:'SMG'}] },
+  "Empress International":        { b1:"+10% Skill Health", b2:"+10% Skill Damage", b3:"+8% Skill Efficiency", dmg:[] },
+  "Fenris Group AB":             { b1:"+10% Assault Rifle Damage", b2:"+30% Reload Speed", b3:"+50% Stability",
+                                   dmg:[{pc:1,field:'WT',val:10,wep:'AR'}] },
+  "Gila Guard":                  { b1:"+5% Total Armor", b2:"+60% Health", b3:"+2% Armor Regeneration", dmg:[] },
+  "Grupo Sombra S.A.":           { b1:"+13% Critical Hit Damage", b2:"+20% Explosives Damage", b3:"+13% Headshot Damage",
+                                   dmg:[{pc:1,field:'CHD',val:13}] },
+  "Golan Gear":                  { b1:"+10% Status Effects", b2:"+1.5% Armor Regeneration", b3:"+10% Total Armor", dmg:[] },
+  "Habsburg Guard":              { b1:"+13% Headshot Damage", b2:"+20% Marksman Rifle Damage", b3:"+25% Status Effects",
+                                   dmg:[{pc:2,field:'WT',val:20,wep:'MMR'}] },
+  "Hana-U Corporation":          { b1:"+10% Skill Haste", b2:"+10% Skill Damage", b3:"+15% Weapon Damage",
+                                   dmg:[{pc:3,field:'WD',val:15}] },
+  "Imminence Armaments":         { b1:"+5% Weapon Damage", b2:"+100% Increased Threat", b3:"+60% Pistol Damage",
+                                   dmg:[{pc:1,field:'WD',val:5}] },
+  "Legatus S.p.A.":              { b1:"+30% Swap Speed", b2:"+70% Optimal Range", b3:"+15% Weapon Damage",
+                                   dmg:[{pc:3,field:'WD',val:15}] },
+  "Lengmo":                      { b1:"+20% Explosive Resistance", b2:"+20% Skill Health", b3:"+30% LMG Damage",
+                                   dmg:[{pc:3,field:'WT',val:30,wep:'LMG'}] },
+  "Murakami Industries":         { b1:"+15% Skill Duration", b2:"+35% Skill Repair", b3:"+18% Skill Damage", dmg:[] },
+  "Overlord Armaments":          { b1:"+10% Rifle Damage", b2:"+20% Accuracy", b3:"+10% Weapon Handling",
+                                   dmg:[{pc:1,field:'WT',val:10,wep:'Rifle'}] },
+  "Palisade Steelworks":         { b1:"+10% Armor on Kill", b2:"+60% Health", b3:"+1 Skill Tier", dmg:[] },
+  "Petrov Defense Group":        { b1:"+10% LMG Damage", b2:"+10% Weapon Handling", b3:"+20% Ammo Capacity",
+                                   dmg:[{pc:1,field:'WT',val:10,wep:'LMG'}] },
+  "Providence Defense":          { b1:"+13% Headshot Damage", b2:"+8% Critical Hit Chance", b3:"+13% Critical Hit Damage",
+                                   dmg:[{pc:2,field:'CHC',val:8},{pc:3,field:'CHD',val:13}] },
+  "Richter & Kaiser GmbH":       { b1:"+15% Extra Incoming Repairs", b2:"+25% Explosive Resistance", b3:"+40% Skill Repair", dmg:[] },
+  "Shiny Monkey Gear":           { b1:"+15% Skill Duration", b2:"+5% Skill Efficiency", b3:"+52% Repair Skills", dmg:[] },
+  "Sokolov Concern":             { b1:"+10% SMG Damage", b2:"+13% Critical Hit Damage", b3:"+8% Critical Hit Chance",
+                                   dmg:[{pc:1,field:'WT',val:10,wep:'SMG'},{pc:2,field:'CHD',val:13},{pc:3,field:'CHC',val:8}] },
+  "Uzina Getica":                { b1:"+5% Armor", b2:"+10% Armor on Kill", b3:"+30% Hazard Protection", dmg:[] },
+  "Walker, Harris & Co.":        { b1:"+5% Weapon Damage", b2:"+5% Damage to Armor", b3:"+10% Damage to Health",
+                                   dmg:[{pc:1,field:'WD',val:5},{pc:2,field:'DtA',val:5},{pc:3,field:'DtH',val:10}] },
+  "Yaahl Gear":                  { b1:"+10% Hazard Protection", b2:"+10% Weapon Damage", b3:"+40% Pulse Resistance",
+                                   dmg:[{pc:2,field:'WD',val:10}] },
+  "Wyvern Wear":                 { b1:"+8% Skill Damage", b2:"+18% Status Effects", b3:"+45% Skill Duration", dmg:[] },
+  "Zwiadowka SP. z o.o.":        { b1:"+15% Magazine Size", b2:"+20% Rifle Damage", b3:"+30% Weapon Handling",
+                                   dmg:[{pc:2,field:'WT',val:20,wep:'Rifle'}] }
+};
+
+// ===== GEAR SETS — verified one at a time =====
+// Per set: b2/b3 stat bonuses; b4 = the 4-piece talent; chest/backpack = their dedicated talents
+// (which MODIFY the 4pc talent — so which chest/backpack you wear changes what the set does).
+// core = the set's core attribute. `dmg` tags stat bonuses that feed a Roll Advisor field.
+const GEARSETS = {
+  "Striker's Battlegear": {
+    core: "Weapon Damage",
+    b2: "+15% Weapon Handling",
+    b3: "+15% Rate of Fire",
+    b4:      { name: "Striker's Gamble", effect: "Weapon hits increase total weapon damage by 0.65%, stacking up to 100. 1 stack lost/sec (0–50), 2 stacks lost/sec (51–100)." },
+    chest:   { name: "Press the Advantage", effect: "Increases max Striker's Gamble stacks from 100 to 200. 3 stacks lost/sec (101–200)." },
+    backpack:{ name: "Risk Management", effect: "Increases total weapon damage per Striker's Gamble stack from 0.65% to 0.9%." },
+    dmg: []
+  },
+  "Aces & Eights": {
+    core: "Weapon Damage",
+    b2: "+15% Marksman Rifle Damage & +15% Rifle Damage",
+    b3: "+30% Headshot Damage",
+    b4:      { name: "Dead Man's Hand", effect: "Flip a card when landing Rifle/MMR shots. After 5 cards, next shot(s) amplified +30% — count by hand: Four of a Kind 4 shots, Full House 3, Aces & Eights 2. Headshots flip an extra card." },
+    chest:   { name: "No Limit", effect: "Increases Dead Man's Hand damage bonus from 30% to 50%." },
+    backpack:{ name: "Ace in the Sleeve", effect: "Amplifies 1 extra shot when revealing your hand." },
+    dmg: [{pc:2,field:'WT',val:15,wep:'MMR'},{pc:2,field:'WT',val:15,wep:'Rifle'}]
+  },
+  "Umbra Initiative": {
+    core: "Weapon Damage",
+    b2: "+15% Critical Hit Chance",
+    b3: "+30% Reload Speed",
+    b4:      { name: "From the Shadows / Into the Light", effect: "In cover: gain 10 stacks/sec up to 50, each +1.2% crit damage & +0.4% RPM (not while shooting from cover); lose 2/sec out of cover, 1/sec sprinting. Out of cover in combat: gain 10 stacks/sec up to 50, each +0.8% armor regen when consumed; consumes 10/sec only in cover." },
+    chest:   { name: "From the Shadows", effect: "Increases From the Shadows max stacks from 50 to 100, stack gain from 10 to 20." },
+    backpack:{ name: "Into the Light", effect: "Increases Into the Light max stacks from 50 to 100, stack gain from 10 to 20, and consumption from 10 to 20." },
+    dmg: [{pc:2,field:'CHC',val:15}]
+  },
+  "True Patriot": {
+    core: "Weapon Damage",
+    b2: "+30% Ammo Capacity",
+    b3: "+30% Magazine Size",
+    b4:      { name: "Red, White, and Blue", effect: "Enemies you shoot cycle debuffs every 2s. Red: +8% damage taken. White: shooting repairs 2% armor/sec. Blue: -8% enemy damage dealt. Full Flag: an enemy dying under all three explodes (5m) for its total health+armor (reduced on named)." },
+    chest:   { name: "Waving the Flag", effect: "Changes Red/White/Blue rotation from 2s to 1.5s." },
+    backpack:{ name: "Patriotic Boost", effect: "Increases debuff strength — Red 8%→12%, White 2%→3%, Blue 8%→12%." },
+    dmg: []
+  },
+  "System Corruption": {
+    core: "Weapon Damage",
+    b2: "+15% Armor on Kill",
+    b3: "+40% Disrupt Resistance & +40% Pulse Resistance",
+    b4:      { name: "Hackstep Protocol", effect: "Replaces armor kits with an instant, infinite-use ability (20s CD): repairs 20% armor, grants 50% bonus armor, hides nameplate 5s. +1% total weapon damage per 5% bonus armor gained, up to 20%." },
+    chest:   { name: "Compiler Optimization", effect: "Decreases Hackstep Protocol cooldown from 20s to 15s." },
+    backpack:{ name: "Multithreaded Execution", effect: "Increases Hackstep Protocol bonus armor from 50% to 100%." },
+    dmg: []
+  },
+  "Rigger": {
+    core: "Skill Tier",
+    b2: "+15% Skill Haste",
+    b3: "+15% Skill Duration",
+    b4:      { name: "Tend and Befriend", effect: "Interacting with your deployed skills grants that skill +25% skill damage for 10s (cannot be refreshed). Interactions: deploy/use, retarget, or heal the skill." },
+    chest:   { name: "Best Buds", effect: "Increases Tend and Befriend damage buff from 25% to 50%." },
+    backpack:{ name: "Complete Uptime", effect: "Cancelling your skills resets their cooldown." },
+    dmg: []
+  },
+  "Ortiz: Exuro": {
+    core: "Skill Tier",
+    b2: "+20% Increased Burn Duration & +15% Skill Health",
+    b3: "+40% Burn Damage",
+    b4:      { name: "Ortiz Incinerator Turret Prototype", effect: "Incinerator Turret spins 360°. You're immune to your own turret's fire. Turret explodes when disabled." },
+    chest:   { name: "Chain Combustion", effect: "Enemies set on fire by the turret ignite others within 2m." },
+    backpack:{ name: "Heatstroke", effect: "+25% Weapon Damage to enemies set on fire by the turret, and +25% turret range." },
+    dmg: []
+  },
+  "Ongoing Directive": {
+    core: "Weapon Damage",
+    b2: "+15% Status Effects",
+    b3: "+30% Reload Speed",
+    b4:      { name: "Rules of Engagement", effect: "Shooting a status-affected enemy marks it (10s). Killing a marked enemy grants a full clip of Hollow-Point Ammo for your active weapon (half clip to party). Hollow-Point amplifies weapon damage +20% and applies bleed on hit." },
+    chest:   { name: "Parabellum Rounds", effect: "Increases Hollow-Point Ammo damage to 50% (does not apply to party members)." },
+    backpack:{ name: "Trauma Specialist", effect: "Increases bleed status duration +50% and all bleed damage +100%." },
+    dmg: []
+  },
+  "Negotiator's Dilemma": {
+    core: "Weapon Damage",
+    b2: "+15% Critical Hit Chance",
+    b3: "+20% Critical Hit Damage",
+    b4:      { name: "Crowd Control", effect: "Critical hits mark enemies for 20s (up to 3). Critically hitting a marked enemy deals 60% of that damage to all other marked enemies. Each marked-enemy death grants +2% CHD, stacking up to 20 until combat ends." },
+    chest:   { name: "Target Rich Environment", effect: "Increases Crowd Control mark count from 3 to 5." },
+    backpack:{ name: "Critical Measures", effect: "Increases Crowd Control spread damage from 60% to 112%." },
+    dmg: [{pc:2,field:'CHC',val:15},{pc:3,field:'CHD',val:20}]
+  },
+  "Hunter's Fury": {
+    core: "Weapon Damage",
+    b2: "+15% Shotgun Damage & +15% SMG Damage",
+    b3: "+20% Armor on Kill & +50% Health on Kill",
+    b4:      { name: "Apex Predator", effect: "Enemies within 15m are debuffed: +20% your weapon damage against them. Killing a debuffed enemy disorients others within 5m and amplifies weapon damage +5% for 10s, stacking up to 5." },
+    chest:   { name: "Endless Hunger", effect: "Increases Apex Predator stack duration from 10s to 30s." },
+    backpack:{ name: "Overwhelming Force", effect: "Increases disorient radius on Apex Predator kills from 5m to 10m." },
+    dmg: [{pc:2,field:'WT',val:15,wep:'Shotgun'},{pc:2,field:'WT',val:15,wep:'SMG'}]
+  },
+  "Hotshot": {
+    core: "Weapon Damage",
+    b2: "+30% Marksman Rifle Damage & +30% Weapon Handling",
+    b3: "+30% Headshot Damage",
+    b4:      { name: "Headache", effect: "MMR headshots build a cycle: 1st → next headshot +20%; 2nd consecutive → +10% armor (bonus armor up to +50% if full); 3rd → refills magazine. From the 4th consecutive headshot on, get all 3 each headshot kill. Missing a headshot resets the cycle." },
+    chest:   { name: "Stand Tall", effect: "Increases Headache bonus armor from 50% to 100%." },
+    backpack:{ name: "Lucky", effect: "Allows one missed headshot before the Headache cycle resets." },
+    dmg: [{pc:2,field:'WT',val:30,wep:'MMR'}]
+  },
+  "Heartbreaker": {
+    core: "Armor",
+    b2: "+15% Assault Rifle Damage & +15% LMG Damage",
+    b3: "+15% Weapon Handling",
+    b4:      { name: "Heartstopper", effect: "Headshots apply pulse for 5s. Weapon hits on pulsed enemies add a stack of +1% bonus armor and +1.1% weapon damage. Max 50 stacks. 2 stacks lost/sec." },
+    chest:   { name: "Max BPM", effect: "Increases max Heartstopper stacks from 50 to 100." },
+    backpack:{ name: "Cold", effect: "Increases bonus armor per Heartstopper stack from 1% to 2%." },
+    dmg: [{pc:2,field:'WT',val:15,wep:'AR'},{pc:2,field:'WT',val:15,wep:'LMG'}]
+  },
+  "Hard Wired": {
+    core: "Skill Tier",
+    b2: "+15% Skill Haste",
+    b3: "+15% Skill Damage & +30% Repair Skills",
+    b4:      { name: "Feedback Loop", effect: "Using or cancelling a skill reduces your other skill's cooldown by 30s and increases total skill damage and repair by 10% for 20s. Can occur once every 10s." },
+    chest:   { name: "Positive Reinforcement", effect: "Increases Feedback Loop skill damage & repair bonus from +10% to +25%." },
+    backpack:{ name: "Short Circuit", effect: "Decreases Feedback Loop cooldown (from 10s)." },
+    dmg: []
+  },
+  "Future Initiative": {
+    core: "Skill Tier",
+    b2: "+30% Repair Skills",
+    b3: "+15% Skill Haste & +30% Skill Duration",
+    b4:      { name: "Ground Control", effect: "You and allies get +15% total weapon and skill damage while at full armor. Repairing an ally also repairs you and allies within 5m for 60% of that amount." },
+    chest:   { name: "Tactical Superiority", effect: "Increases Ground Control damage bonus from +15% to +25%." },
+    backpack:{ name: "Strategic Combat Support", effect: "Increases Ground Control proximity repair from 60% to 120%." },
+    dmg: []
+  },
+  "Foundry Bulwark": {
+    core: "Armor",
+    b2: "+10% Total Armor",
+    b3: "+1% Armor Regeneration & +50% Shield Health",
+    b4:      { name: "Makeshift Repairs", effect: "Whenever you or your shield take damage, 25% of that amount is repaired to both over 15s." },
+    chest:   { name: "Process Refinery", effect: "Increases Makeshift Repairs speed from 15s to 10s." },
+    backpack:{ name: "Improved Materials", effect: "Increases Makeshift Repairs from 25% to 35%." },
+    dmg: []
+  },
+  "Eclipse Protocol": {
+    core: "Skill Tier",
+    b2: "+15% Status Effects",
+    b3: "+15% Skill Haste & +30% Hazard Protection",
+    b4:      { name: "Indirect Transmission", effect: "Your status effects spread on kill to all enemies within 10m and refresh 50% of the duration." },
+    chest:   { name: "Proliferation", effect: "Increases Indirect Transmission range from 10m to 15m and refresh from 50% to 75%." },
+    backpack:{ name: "Symptom Aggravator", effect: "Amplifies all damage you deal to status-affected targets by 30%." },
+    dmg: []
+  },
+  "Cavalier": {
+    core: "Armor",
+    b2: "+30% Hazard Protection",
+    b3: "+40% Repair Skills",
+    b4:      { name: "Charging / Charged", effect: "Charging: +5% reduced incoming skill damage per second out of cover in combat, max 50%. Charged (at full): immune to movement-speed debuffs, share hazard protection and incoming-skill-damage reduction with allies for 10s; Charging resumes after if still in combat out of cover." },
+    chest:   { name: "Overcharging", effect: "Increases Charging max incoming skill-damage protection to 70%." },
+    backpack:{ name: "Safe Charging", effect: "Charging gives 10% protection per second." },
+    dmg: []
+  },
+  "Breaking Point": {
+    core: "Weapon Damage",
+    b2: "+25% Marksman Rifle Damage & +25% Rifle Damage",
+    b3: "+30% Headshot Damage & +15% Weapon Handling",
+    b4:      { name: "On Point", effect: "Rifle/MMR hits grant a stack (max = magazine size). Reloading grants +2% Weapon Handling and +4% Weapon Damage per stack for 10s; no stacks gained while active, timer end refills magazine. Weapon-swapping while active stops the effect and refills; swapping while inactive removes all stacks and refills." },
+    chest:   { name: "Point of No Return", effect: "Increases On Point bonus timer from 10s to 15s." },
+    backpack:{ name: "Point of Honor", effect: "Increases On Point Weapon Damage bonus from 4% to 6% per stack." },
+    dmg: [{pc:2,field:'WT',val:25,wep:'MMR'},{pc:2,field:'WT',val:25,wep:'Rifle'}]
+  },
+  "Aegis": {
+    core: "Armor",
+    b2: "+70% Health",
+    b3: "+15% Total Armor",
+    b4:      { name: "Stoic", effect: "+4% Damage Resistance per enemy targeting you (max 8 stacks). Bonus is multiplied by 1.X, where X is the number of agents in your group." },
+    chest:   { name: "Deceit", effect: "Enemies targeting your Decoy also count toward the Stoic Damage Resistance bonus." },
+    backpack:{ name: "Polyethylene Plating", effect: "Increases Stoic Damage Resistance bonus from 4% to 5% per stack." },
+    dmg: []
+  },
+  "Tip of the Spear": {
+    core: "Weapon Damage",
+    b2: "+20% Signature Weapon Damage",
+    b3: "+10% Weapon Damage",
+    b4:      { name: "Aggressive Recon", effect: "A Signature Weapon kill grants +15% Signature Weapon Damage for 10s and +25% Reload Speed on the next reload (do not stack). Auto-regenerates Signature Weapon ammo every 60s." },
+    chest:   { name: "Specialized Destruction", effect: "Increases Aggressive Recon Signature Weapon Damage bonus from 15% to 30%. Every 3rd Signature Weapon kill generates ammo." },
+    backpack:{ name: "Signature Moves", effect: "+50% Weapon Damage for 15s after fully depleting Signature Weapon ammo. Doubles ammo generated by Aggressive Recon." },
+    dmg: [{pc:3,field:'WD',val:10}]
+  }
+};
+
 // Look up an item's canonical quality; fall back to inline if not in DB.
 function itemQuality(name, fallback) {
   return (ITEMS[name] && ITEMS[name].quality) || fallback || "high";
@@ -730,7 +987,7 @@ const builds = {
   "striker-general": {
     name: "Striker — General",
     primaries: [
-      { name: "St. Elmo's Engine", quality: "exotic", rec: true,  stats: "AR Damage / Health Damage / DTTOC", talent: "Capacitive — damage stacks on hits, bonus electric damage", mods: "3x CHD" },
+      { name: "St. Elmo's Engine", quality: "exotic", rec: true,  stats: "AR Damage / Health Damage / 3rd (rerollable)", talent: "Actum Est — 100 shooting stacks loads next mag with Shock ammo", mods: "fixed exotic mods: +15% CHD, +15% CHC, +10% handling, +30 rounds" },
       { name: "Lexington",          quality: "named",  rec: false, stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Killer (preferred) or Measured", mods: "3x CHD" },
       { name: "FAMAS",              quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Killer (preferred) or Measured", mods: "3x CHD" },
       { name: "Ouroboros",          quality: "exotic", rec: false, stats: "", talent: "", mods: "" }
@@ -756,7 +1013,7 @@ const builds = {
   "striker-solo": {
     name: "Striker — Solo",
     primaries: [
-      { name: "St. Elmo's Engine", quality: "exotic", rec: true,  stats: "AR Damage / Health Damage / DTTOC", talent: "Capacitive — damage stacks on hits, bonus electric damage", mods: "3x CHD" },
+      { name: "St. Elmo's Engine", quality: "exotic", rec: true,  stats: "AR Damage / Health Damage / 3rd (rerollable)", talent: "Actum Est — 100 shooting stacks loads next mag with Shock ammo", mods: "fixed exotic mods: +15% CHD, +15% CHC, +10% handling, +30 rounds" },
       { name: "Lexington",          quality: "named",  rec: false, stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Killer (preferred) or Measured", mods: "3x CHD" },
       { name: "FAMAS",              quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Killer (preferred) or Measured", mods: "3x CHD" }
     ],
@@ -865,7 +1122,7 @@ const builds = {
     ],
     salvo: "Optional: swap the holster to Salvo (+10% Rate of Fire, faster Striker stacking) on any preset if you'll get value from the fire rate. Doing so makes the helm go Striker and drops you to one helm/gloves wildcard.",
     chcNote: "All rolls serve one target: 60% CHC total (weapon + gear COMBINED), then everything else into CHD. Your weapon changes how much CHC you need from gear — St. Elmo's gives +15% CHC innate, Ouroboros +10%, LMGs contribute their rolled 3rd-stat CHC. More CHC from the weapon = roll less CHC on gear (lean CHD). Listed gear rolls assume cap is met.",
-    notes: "Escalation Tier 10 Striker. Always 4pc Striker — chest, backpack, holster, kneepads stay Striker; helm + gloves are the 2 wildcards (pick a preset). ~99% LMG (M249B + Frenzy). Ceska = +8% CHC (while climbing to 60% cap); use Grupo (+15% CHD) once capped. Hollow Man strongest prototyped (+21% DtH). Overdogs ramps off kills (throughput, not pure boss). Contractor's adds DtA + Petrov LMG brand. Fox's Prayer is OUT on LMG (Attribute Tax — Ceska/Grupo crit wins; Fox's only BiS on true Rifle builds)."
+    notes: "Escalation Tier 10 Striker. Always 4pc Striker — chest, backpack, holster, kneepads stay Striker; helm + gloves are the 2 wildcards (pick a preset). ~99% LMG (M249B + Frenzy). Ceska = +8% CHC (while climbing to 60% cap); use Grupo (+13% CHD) once capped. Hollow Man strongest prototyped (+21% DtH). Overdogs ramps off kills (throughput, not pure boss). Contractor's adds DtA + Petrov LMG brand. Fox's Prayer is OUT on LMG (Attribute Tax — Ceska/Grupo crit wins; Fox's only BiS on true Rifle builds)."
   },
   "ts-lmg": {
     name: "Tipping Scales — LMG",
@@ -1546,6 +1803,37 @@ function rollCol(side){
     </div>`;
 }
 
+// Build the "brands & which field they feed" reference straight from the BRANDS table,
+// so it can never drift from the verified data (this is why the table is in the DB).
+function brandRefGrid(){
+  const wepName = { SMG:"SMG", AR:"AR", Rifle:"Rifle", MMR:"MMR", LMG:"LMG", Shotgun:"Shotgun" };
+  // collect tagged bonuses per field
+  const buckets = { CHC:[], CHD:[], WD:[], WT:[], DtA:[], DtH:[] };
+  Object.entries(BRANDS).forEach(([name, b]) => {
+    (b.dmg || []).forEach(d => {
+      const short = name
+        .replace(/ (S\.A\.|S\.R\.O\.|S\.p\.A\.|SP\. z o\.o\.|GmbH|Concern|Group AB|Holdings|Industries|Armaments|Defense Group|Defense|International|Corporation|Gear|Guard|Tuff|Steelworks|Group|, Harris & Co\.)$/i, '')
+        .replace(/,$/, '')
+        .trim();
+      const wep = d.wep ? ` ${wepName[d.wep]}` : '';
+      buckets[d.field].push({ short, txt: `${short} (+${d.val}%${wep}, ${d.pc}pc)`, pc: d.pc });
+    });
+  });
+  const sortRow = arr => arr.sort((a,b)=>a.pc-b.pc || a.short.localeCompare(b.short)).map(x=>x.txt).join(', ');
+  const rows = [
+    ['CHC', sortRow(buckets.CHC) + ', Coyote\u2019s Mask (proximity)'],
+    ['CHD', sortRow(buckets.CHD)],
+    ['Weapon Dmg', 'red cores, expertise, WD rolls \u2014 <b>generic WD brands:</b> ' + sortRow(buckets.WD)],
+    ['Weapon-type', '<span class="dmg-ref-sub">(only count for that weapon)</span> ' + sortRow(buckets.WT)],
+    ['Dmg to Armor', sortRow(buckets.DtA)],
+    ['Dmg to Health', sortRow(buckets.DtH)],
+    ['Dmg to OoC', 'Fox\u2019s Prayer (Overlord named knees) \u2014 no brand gives this']
+  ];
+  return `<div class="dmg-ref-grid">${rows.map(([lab, txt]) =>
+    `<div class="dmg-ref-cat"><span class="dmg-ref-lab">${lab}</span><span>${txt}</span></div>`
+  ).join('')}</div>`;
+}
+
 function renderDmgCalc(){
   tabs('dmg-calc');
   document.getElementById("content").innerHTML = `
@@ -1562,15 +1850,9 @@ function renderDmgCalc(){
           <li><b>Reading a close result:</b> this score is an <i>average</i>. It undervalues CHC's consistency — at low CHC most shots don't crit, so damage is swingy in practice. If a config wins only by dropping a big chunk of CHC for a small gain, treat that as a loss, not a win.</li>
         </ul>
         <div class="dmg-ref">
-          <div class="dmg-ref-h">Common pieces &amp; which field they feed</div>
-          <div class="dmg-ref-grid">
-            <div class="dmg-ref-cat"><span class="dmg-ref-lab">CHC</span><span>Ceska Vyroba (+8%), Wyvern Wear (+10%)</span></div>
-            <div class="dmg-ref-cat"><span class="dmg-ref-lab">CHD</span><span>Grupo Sombra (+13%), Sokolov 2pc (+13%), Wyvern 2pc (+7%)</span></div>
-            <div class="dmg-ref-cat"><span class="dmg-ref-lab">Weapon Dmg</span><span>red cores, expertise, WD rolls — <b>+ weapon-type brands:</b> Sokolov (SMG), Fenris (AR), Overlord (Rifle), Airaldi (MMR), Petrov (LMG), Badger/China Light (Shotgun) — all +10%, only count for that weapon</span></div>
-            <div class="dmg-ref-cat"><span class="dmg-ref-lab">Dmg to OoC</span><span>Fox's Prayer (Overlord knees)</span></div>
-            <div class="dmg-ref-cat"><span class="dmg-ref-lab">Dmg to Armor</span><span>Airaldi 3pc (+5%), Walker Harris</span></div>
-          </div>
-          <div class="dmg-ref-note">Not exhaustive — just the common ones so you know what an option feeds. A weapon-type brand (e.g. Sokolov's SMG dmg) goes in Weapon Dmg, only for that weapon.</div>
+          <div class="dmg-ref-h">Brands &amp; which field they feed</div>
+          ${brandRefGrid()}
+          <div class="dmg-ref-note">Generated from the verified brand table. Also: Coyote's Mask gives proximity CHC; Fox's Prayer (Overlord named knees) is the only common Dmg-to-OoC source (no brand gives it). A weapon-type brand (e.g. Sokolov's SMG dmg) goes in Weapon Dmg, only for that weapon.</div>
         </div>
       </div>
       <div class="dmg-actions">
@@ -1711,7 +1993,8 @@ const TEAM_COMPS = [
 // ===== Changelog (version stamp opens this) =====
 // Add newest entries at the TOP. One object per published version.
 const CHANGELOG = [
-  { v: "v0000003", notes: ["Roll Advisor tab added (A/B per-shot compare: CHC/CHD/WD + target buckets, with common-pieces reference)", "Gear mod-slot rendering fixed (core pinned on top, mod as its own field, correct slot counts)", "Exotic gear cards now show their cores + mod slot (Memento, Overdogs, Nurse's Kneepads, BTSU)", "Hunter's Fury retuned to 51% CHC (chest-only CHC, verified optimal — cap-math and notes updated)", "Old crit A/B comparison removed from CHC Checker (superseded by Roll Advisor)"] },
+  { v: "v0000004", notes: ["Full gear-set table added to the database (all 20 sets, verified — 2pc/3pc bonuses, 4pc talent, chest + backpack talents, core)", "Exotic weapons reconciled against the wiki (St. Elmo's, Scorpio, Ouroboros, Bluescreen, Capacitor, Backfire) — correct talents + built-in mods, removed a duplicate Backfire entry", "Weapon cores fixed to the class pattern (AR+Health, SMG+CHC, Shotgun+DtA, LMG+DtToC, etc.) with the 3 documented exceptions marked (Capacitor, Bighorn, Ravenous)", "Brand values corrected — Ceska +8% CHC, Grupo +13% CHD; removed stale crit brands (Wyvern, Douglas & Harding are now skill/utility)"] },
+  { v: "v0000003", notes: ["Roll Advisor tab added (A/B per-shot compare: CHC/CHD/WD + target buckets, with common-pieces reference)", "Full brand-bonus table added to the database (all 33 brands, verified) — Roll Advisor reference generated from it", "Gear mod-slot rendering fixed (core pinned on top, mod as its own field, correct slot counts)", "Exotic gear cards now show their cores + mod slot (Memento, Overdogs, Nurse's Kneepads, BTSU)", "Hunter's Fury retuned to 51% CHC (chest-only CHC, verified optimal — cap-math and notes updated)", "Old crit A/B comparison removed from CHC Checker (superseded by Roll Advisor)"] },
   { v: "v0000002", notes: ["Hunter's Fury build added (solo/group backpack toggle, weapon tier lists, CHD-vs-WD rules callout)", "Fixed The Mop (named SIX12 shotgun, +10% Armor on Kill — was mis-stored as an SMG)", "Changelog moved to its own page (from the version stamp)"] },
   { v: "v0000001", notes: ["FI Healer build added", "Teams tab (4-man comps) added", "Exotic gear/weapon 3rd-stat handling + fixes", "Version stamp added"] }
 ];
