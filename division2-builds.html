@@ -156,6 +156,16 @@
   .logo::after { content: ""; position: absolute; inset: 6px; background: var(--orange); }
   header h1 { font-size: 18px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
   header h1 small { display: block; font-size: 11px; font-weight: 500; letter-spacing: 0.18em; color: var(--text-dim); margin-top: 2px; }
+  .version { margin-left: auto; align-self: flex-start; background: none; border: none; cursor: pointer; font-family: 'Consolas', ui-monospace, monospace; font-size: 11px; letter-spacing: 0.08em; color: var(--text-dim); padding: 2px 4px; }
+  .version:hover { color: var(--orange); }
+  .cl-list { display: flex; flex-direction: column; gap: 0; max-width: 760px; }
+  .cl-row { display: grid; grid-template-columns: 100px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .cl-row:last-child { border-bottom: none; }
+  .cl-ver { font-family: 'Consolas', ui-monospace, monospace; font-size: 13px; font-weight: 700; color: var(--orange); }
+  .cl-notes { display: flex; flex-direction: column; gap: 4px; }
+  .cl-note { font-size: 13px; color: var(--text-mid); line-height: 1.45; padding-left: 13px; position: relative; }
+  .cl-note::before { content: "›"; position: absolute; left: 0; color: var(--text-dim); }
+  @media (max-width: 560px) { .cl-row { grid-template-columns: 1fr; gap: 5px; } }
 
   /* Build tabs — grouped by role */
   .tabs { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1.5rem; }
@@ -232,7 +242,22 @@
   .stat i.dot-yellow { border-color: #f0b429; }
   .stat i.dot-yellow::after { background: #f0b429; }
   .g-talent { font-size: 12px; font-weight: 600; color: var(--orange); margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line); display: flex; gap: 7px; align-items: center; }
+  .stat-mod { margin-top: 6px; padding-top: 6px; border-top: 1px dashed var(--line); }
+  .mod-tag { margin-left: 6px; font-size: 8.5px; font-weight: 700; letter-spacing: 0.06em; color: var(--text-dim); border: 1px solid var(--line-2); border-radius: 2px; padding: 0 4px; }
+  .stat-mod-empty { opacity: 0.55; }
+  .stat i.dot-empty { border-color: var(--line-2); }
+  .stat i.dot-empty::after { display: none; }
+  .mod-empty-txt { font-style: italic; color: var(--text-dim); }
   .g-fixed { font-size: 11px; font-weight: 600; color: var(--text-dim); margin-top: 9px; padding-top: 9px; border-top: 1px solid var(--line); font-style: italic; }
+  .qcard.q-multi::before { background: linear-gradient(var(--q-named) 50%, var(--q-high) 50%); }
+  .qcard.q-multi { background: #1c1a15; }
+  .g-sources { display: flex; flex-direction: column; gap: 7px; margin-bottom: 4px; }
+  .g-src { display: grid; grid-template-columns: 1fr auto; gap: 6px 8px; align-items: center; }
+  .g-src-name { font-size: 15px; font-weight: 700; }
+  .g-src.q-named .g-src-name { color: var(--q-named); }
+  .g-src.q-high .g-src-name { color: var(--text); }
+  .g-src-tal { grid-column: 1 / -1; font-size: 12px; color: var(--orange); font-weight: 600; }
+  .g-src.q-high .g-src-tal { color: var(--text-mid); }
   .g-talent::before { content: "◆"; font-size: 9px; color: var(--orange); }
   .reuse { font-size: 10.5px; color: #5dcaa5; margin-top: 8px; padding-top: 7px; border-top: 1px dashed var(--line); font-weight: 500; }
 
@@ -347,23 +372,65 @@
   .chc-clear:hover { border-color: var(--red); color: var(--red); }
   .chc-note { font-size: 12px; color: var(--text-dim); line-height: 1.6; background: var(--panel); border: 1px solid var(--line); padding: 11px 14px; }
 
-  /* Crit comparison A vs B */
-  .crit-tool { max-width: 600px; }
-  .crit-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-  .crit-col { background: var(--panel); border: 1px solid var(--line); padding: 12px 14px; }
-  .crit-col-h { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 10px; }
-  .crit-col label { display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 8px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 7px; }
-  .crit-col label:last-child { margin-bottom: 0; }
-  .crit-result { margin-bottom: 12px; }
-  .crit-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .crit-out { background: var(--panel); border: 1px solid var(--line-2); padding: 12px 14px; display: flex; align-items: baseline; gap: 9px; }
-  .crit-out.win { border-color: var(--q-set); background: rgba(37,192,138,0.08); }
-  .crit-lab { font-size: 11px; font-weight: 700; color: var(--text-dim); }
-  .crit-mult { font-size: 24px; font-weight: 700; color: var(--text); }
-  .crit-out.win .crit-mult { color: var(--q-set); }
-  .crit-clamp { font-size: 10px; color: var(--red); align-self: center; }
-  .crit-verdict { margin-top: 10px; font-size: 14px; font-weight: 700; color: var(--q-set); padding: 9px 14px; background: rgba(37,192,138,0.08); border: 1px solid rgba(37,192,138,0.3); border-left: 3px solid var(--q-set); }
-  .crit-verdict.tie { color: var(--text-mid); border-left-color: var(--text-dim); background: var(--panel); }
+  /* Damage Calculator tab */
+  .dmg-tool { max-width: 900px; }
+  .dmg-intro { font-size: 12.5px; color: var(--text-dim); line-height: 1.65; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent-blue); padding: 12px 15px; margin-bottom: 16px; }
+  .dmg-intro b { color: var(--text-mid); }
+  .dmg-intro-lead { color: var(--text); font-weight: 600; font-size: 13.5px; line-height: 1.5; margin-bottom: 8px; }
+  .dmg-intro-list { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+  .dmg-intro-list li { line-height: 1.5; }
+  .dmg-ref { margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--line-2); }
+  .dmg-ref-h { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 8px; }
+  .dmg-ref-grid { display: flex; flex-direction: column; gap: 6px; }
+  .dmg-ref-cat { display: grid; grid-template-columns: 104px 1fr; gap: 10px; font-size: 12px; line-height: 1.5; color: var(--text-dim); align-items: start; }
+  .dmg-ref-lab { font-weight: 700; color: var(--text-mid); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; padding-top: 1px; }
+  .dmg-ref-note { font-size: 11px; color: var(--text-dim); font-style: italic; margin-top: 9px; line-height: 1.5; }
+  .dmg-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 720px) { .dmg-cols { grid-template-columns: 1fr; } }
+  .dmg-col { background: var(--panel); border: 1px solid var(--line); padding: 14px 16px; }
+  .dmg-col.col-a { border-top: 2px solid var(--accent-blue); }
+  .dmg-col.col-b { border-top: 2px solid var(--q-named); }
+  .dmg-col-h { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .dmg-col.col-a .dmg-col-h::before { content: "A"; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: var(--accent-blue); color: #fff; font-size: 12px; border-radius: 2px; }
+  .dmg-col.col-b .dmg-col-h::before { content: "B"; display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: var(--q-named); color: #000; font-size: 12px; border-radius: 2px; }
+  .dmg-field { display: grid; grid-template-columns: 1fr 92px; align-items: center; gap: 8px; margin-bottom: 7px; font-size: 11px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text-dim); }
+  .dmg-field .dmg-lab-note { text-transform: none; letter-spacing: 0; font-weight: 500; color: var(--text-dim); opacity: 0.7; font-size: 10px; }
+  .dmg-f { background: var(--bg); border: 1px solid var(--line-2); color: var(--text); font-family: inherit; font-size: 14px; padding: 7px 8px; text-align: right; width: 100%; }
+  .dmg-f:focus { outline: none; border-color: var(--accent-blue); }
+  .dmg-sub { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mid); margin: 14px 0 8px; padding-bottom: 4px; border-bottom: 1px dashed var(--line-2); }
+  .dmg-amps { margin-top: 4px; }
+  .dmg-amp-row { display: grid; grid-template-columns: 1fr 72px 26px; gap: 6px; margin-bottom: 6px; align-items: center; }
+  .dmg-amp-row input.amp-name { background: var(--bg); border: 1px solid var(--line-2); color: var(--text); font-family: inherit; font-size: 12px; padding: 6px 8px; text-transform: none; letter-spacing: 0; font-weight: 500; }
+  .dmg-amp-row input.amp-val { background: var(--bg); border: 1px solid var(--line-2); color: var(--text); font-family: inherit; font-size: 13px; padding: 6px 8px; text-align: right; }
+  .dmg-amp-row input:focus { outline: none; border-color: var(--accent-blue); }
+  .dmg-amp-x { background: var(--panel-2); border: 1px solid var(--line-2); color: var(--text-dim); font-family: inherit; font-size: 14px; cursor: pointer; padding: 5px 0; line-height: 1; }
+  .dmg-amp-x:hover { border-color: var(--red); color: var(--red); }
+  .dmg-amp-add { background: var(--panel-2); border: 1px solid var(--line-2); color: var(--text-mid); font-family: inherit; font-size: 11px; font-weight: 600; padding: 6px 12px; cursor: pointer; margin-top: 2px; }
+  .dmg-amp-add:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+  .dmg-out { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line-2); }
+  .dmg-out-big { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
+  .dmg-out-big .dmg-unit { font-size: 12px; font-weight: 500; color: var(--text-dim); margin-left: 5px; }
+  .dmg-out-lab { font-size: 10px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
+  .dmg-out-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; font-size: 12.5px; padding: 4px 0; border-bottom: 1px dashed var(--line); }
+  .dmg-out-row:last-child { border-bottom: none; }
+  .dmg-out-row .k { color: var(--text-dim); font-weight: 600; }
+  .dmg-out-row .v { color: var(--text); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .dmg-out-grp { margin-top: 10px; }
+  .dmg-delta { margin-top: 16px; background: var(--panel); border: 1px solid var(--line-2); border-left: 3px solid var(--q-set); padding: 13px 16px; }
+  .dmg-delta-h { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-mid); margin-bottom: 8px; }
+  .dmg-delta-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; font-size: 13px; padding: 4px 0; }
+  .dmg-delta-row .k { color: var(--text-dim); font-weight: 600; }
+  .dmg-delta-row .v { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .dmg-delta-row .v.up { color: var(--q-set); }
+  .dmg-delta-row .v.down { color: var(--red); }
+  .dmg-delta-row .v.flat { color: var(--text-dim); }
+  .dmg-actions { display: flex; gap: 8px; margin: 14px 0; }
+  .dmg-clear { background: var(--panel-2); border: 1px solid var(--line-2); color: var(--text-mid); font-family: inherit; font-size: 12.5px; font-weight: 600; padding: 8px 14px; cursor: pointer; }
+  .dmg-clear:hover { border-color: var(--red); color: var(--red); }
+  .dmg-copy { background: var(--panel-2); border: 1px solid var(--line-2); color: var(--text-mid); font-family: inherit; font-size: 12.5px; font-weight: 600; padding: 8px 14px; cursor: pointer; }
+  .dmg-copy:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+  .dmg-hsnote { font-size: 11px; color: var(--text-dim); font-style: italic; margin-top: 3px; }
 
   /* Teams tab */
   .team-comps { display: flex; flex-direction: column; gap: 12px; max-width: 820px; }
@@ -383,6 +450,11 @@
   .team-role-bullet { font-size: 12px; color: var(--text-mid); line-height: 1.4; padding-left: 13px; position: relative; }
   .team-role-bullet::before { content: "›"; position: absolute; left: 0; color: var(--text-dim); }
   .hl-orange { color: var(--orange); font-weight: 700; }
+  .hl-named { color: var(--q-named); font-weight: 700; }
+  .hl-brand { color: var(--text); font-weight: 700; }
+  .pill-t { display: inline-block; font-size: 9px; font-weight: 700; line-height: 1.4; text-align: center; min-width: 13px; border-radius: 2px; margin-left: 3px; vertical-align: middle; position: relative; top: -1px; }
+  .pill-t.roll { color: var(--text-dim); border: 1px solid var(--line-2); background: transparent; }
+  .pill-t.lock { color: #d9b54a; border: 1px solid rgba(217,181,74,0.55); background: rgba(217,181,74,0.12); }
   .hl-strike { text-decoration: line-through; }
   .team-buffs { border-top: 1px solid var(--line); padding-top: 10px; }
   .team-dps-opts { border-top: 1px solid var(--line); padding-top: 10px; margin-bottom: 11px; }
@@ -405,6 +477,22 @@
   .crit-rule:last-child { margin-bottom: 0; }
   .crit-rule b { color: var(--text); font-weight: 700; white-space: nowrap; }
   .cr-n { position: absolute; left: 0; top: 0; font-weight: 700; color: var(--orange); font-size: 11px; }
+  .crit-rule-bottom { padding-left: 0; margin-top: 4px; padding-top: 9px; border-top: 1px solid var(--line); color: var(--text); font-weight: 600; }
+  .cap-math { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--accent-blue); padding: 12px 16px; max-width: 760px; }
+  .cap-head { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+  .cap-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .cap-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-blue); margin-bottom: 5px; }
+  .cap-line { font-size: 12px; color: var(--text-mid); line-height: 1.5; }
+  .cap-note { font-size: 12px; color: var(--text-mid); line-height: 1.5; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+  @media (max-width: 560px) { .cap-cols { grid-template-columns: 1fr; gap: 10px; } }
+  .g-talnote { font-size: 11.5px; color: var(--text-mid); line-height: 1.45; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+  .g-notelist { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
+  .g-notehead { font-size: 11.5px; color: var(--text); font-weight: 700; margin-bottom: 5px; }
+  .g-bullet { font-size: 11.5px; color: var(--text-mid); line-height: 1.4; padding-left: 13px; position: relative; margin-bottom: 3px; }
+  .g-bullet::before { content: "›"; position: absolute; left: 0; color: var(--text-dim); }
+  .gtoggle { display: flex; gap: 0; margin-bottom: 9px; }
+  .gtoggle-btn { flex: 1; background: var(--bg); color: var(--text-dim); border: 1px solid var(--line-2); padding: 5px 0; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; font-family: inherit; }
+  .gtoggle-btn.on { background: var(--red); color: #fff; border-color: var(--red); }
 
   @media (max-width: 560px) {
     .chc-slot { grid-template-columns: 1fr; gap: 6px; }
@@ -418,7 +506,7 @@
   /* e10 preset UI — combined clickable rows */
   .preset-rows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
   .preset-row {
-    display: grid; grid-template-columns: 180px 110px 1fr; gap: 12px; align-items: center;
+    display: grid; grid-template-columns: 1fr 120px; gap: 12px; align-items: center;
     width: 100%; text-align: left; cursor: pointer; font-family: inherit;
     background: var(--panel); color: var(--text-mid);
     border: 1px solid var(--line-2); border-left: 3px solid var(--line-2);
@@ -426,14 +514,13 @@
   }
   .preset-row:hover { border-color: var(--text-dim); }
   .pr-name { font-weight: 700; font-size: 13.5px; color: var(--text); }
+  .pr-top { color: var(--orange); font-size: 10px; margin-right: 6px; vertical-align: middle; }
   .pr-dmg { font-weight: 700; font-size: 11px; letter-spacing: 0.02em; color: var(--text-mid); }
-  .pr-use { font-size: 12.5px; color: var(--text-mid); }
   .preset-row.active {
     background: rgba(255,91,74,0.12); border-color: var(--red); border-left-color: var(--red);
   }
   .preset-row.active .pr-name { color: #ff7a6b; }
   .preset-row.active .pr-dmg { color: var(--red); }
-  .preset-row.active .pr-use { color: var(--text); }
 
   .salvo-callout { display: flex; gap: 11px; align-items: flex-start; background: rgba(55,138,221,0.08); border: 1px solid rgba(55,138,221,0.35); border-left: 3px solid var(--accent-blue); padding: 11px 14px; margin: 14px 0 0; font-size: 12.5px; color: var(--text-mid); line-height: 1.55; }
   .salvo-tag { flex-shrink: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #04121f; background: var(--accent-blue); padding: 2px 8px; clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px); }
@@ -454,6 +541,7 @@
   <header>
     <div class="logo"></div>
     <h1>Division 2<small>Build Reference</small></h1>
+    <button class="version" onclick="renderChangelog()">v0000003</button>
   </header>
 
   <div class="tabs" id="tabs"></div>
@@ -470,32 +558,53 @@
 // ============================================================
 const ITEMS = {
   // ---- Weapons: Assault Rifles ----
-  "St. Elmo's Engine": { quality: "exotic", type: "AR" },
-  "Lexington":         { quality: "named",  type: "AR", innate: "DTTOC", note: "+5% base dmg over M4" },
-  "Police M4":         { quality: "high",   type: "AR" },
-  "FAMAS":             { quality: "high",   type: "AR" },
-  "Capacitor":         { quality: "exotic", type: "AR", thirdStat: "Skill Dmg / Haste" },
-  "Harmony":           { quality: "named",  type: "AR", talent: "Perfect Optimist" },
-  "Pyromaniac":        { quality: "named",  type: "AR", talent: "Perfectly Ignited" },
-  "Ouroboros":         { quality: "exotic", type: "SMG" },
-  "Vector SBR":        { quality: "high",   type: "SMG", note: "high burst DPS (.45 or 9mm)" },
-  "SIG MPX":           { quality: "high",   type: "SMG", note: "sustained mid-range control" },
+  "St. Elmo's Engine": { quality: "exotic", type: "AR", talent: "Actum Est — shooting stacks up to 100; at 100 the next magazine is loaded with Shock ammo",
+    cores: ["Assault Rifle Damage", "Health Damage"], thirdAttr: "rerollable", aka: "exotic LVOA-C; 70+1 mag; top-tier AR" },
+  "Lexington":         { quality: "named",  type: "AR", innate: "DTTOC", note: "+5% base dmg over M4; strong high-RoF AR for Striker stacking" },
+  "Police M4":         { quality: "high",   type: "AR", note: "top-tier baseline AR — high RoF, clean handling; workhorse for Striker builds" },
+  "FAMAS":             { quality: "high",   type: "AR", note: "FAMAS 2000 — top-tier AR, very high RoF" },
+  "Capacitor":         { quality: "exotic", type: "AR", talent: "Capacitance — each hit +1.5% Skill Damage, up to +60%; best with autonomous skills (turret/drone)",
+    cores: ["Assault Rifle Damage", "Skill Damage"], thirdStat: "Skill Dmg / Haste", aka: "exotic PDR-C; the skill-build AR" },
+  "Harmony":           { quality: "named",  type: "AR", talent: "Perfect Optimist — weapon dmg ramps the longer you stay in a firefight" },
+  "Pyromaniac":        { quality: "named",  type: "AR", talent: "Perfectly Ignited — bonus dmg vs burning targets" },
+  "Ouroboros":         { quality: "exotic", type: "SMG", talent: "Rule Them All — when a status effect is applied to you, 50% of your next magazine applies that same status effect to enemies (combat only)",
+    cores: ["SMG Damage", "Critical Hit Chance"], thirdAttr: "rerollable (DTTOOC / DTA)",
+    aka: "exotic Vector SBR 9mm variant; ~1500 base RPM (highest fire rate); Paradise Lost Incursion only" },
+  "Vector SBR":        { quality: "high",   type: "SMG", cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], note: "base Vector — high burst DPS (.45 or 9mm); Dark Winter/Ouroboros are its named/exotic variants" },
+  "SIG MPX":           { quality: "high",   type: "SMG", cores: ["SMG Damage", "Critical Hit Chance"], note: "sustained mid-range control SMG" },
+  "Backfire":          { quality: "exotic", type: "SMG", talent: "self-igniting exotic SMG (SMG-loot farm)", cores: ["SMG Damage", "Critical Hit Chance"], thirdAttr: "rerollable" },
 
   // ---- Weapons: LMGs ----
   "M249B":                { quality: "high",   type: "LMG", laser: false, aka: "M249B = MK46 (same 249B-family weapon, different looks): high base dmg, ~180 rounds, NO laser rail. For pulse builds use the Tactical M249 Para instead — it takes the laser but has lower base dmg." },
   "Tactical M249 Para":   { quality: "high",   type: "LMG", laser: true, aka: "249B-family variant with the laser rail (for pulse builds), but lower base dmg + worse handling than the MK46/M249B." },
-  "GR9":                  { quality: "high",   type: "LMG", laser: false },
-  "Dare":                 { quality: "named",  type: "LMG", talent: "Perfect Flatline" },
-  "Bluescreen":           { quality: "exotic", type: "LMG" },
+  "GR9":                  { quality: "high",   type: "LMG", laser: false, note: "high-RoF LMG, strong Striker/Heartbreaker stacking option" },
+  "Dare":                 { quality: "named",  type: "LMG", talent: "Perfect Flatline — reloading amplifies weapon dmg" },
+  "Bluescreen":           { quality: "exotic", type: "LMG", talent: "exotic LMG — 200-round mag with crowd-control shock effect", cores: ["LMG Damage", "Critical Hit Chance"] },
 
   // ---- Weapons: Shotguns ----
-  "Stack Broker":  { quality: "named",  type: "Shotgun", talent: "free talent slot" },
-  "ACS-12":        { quality: "high",   type: "Shotgun" },
-  "Lefty":         { quality: "named",  type: "Shotgun", talent: "Perfect Sledgehammer" },
-  "Rock and Roll": { quality: "named",  type: "Shotgun", talent: "Perfectly Extra" },
-  "Scorpio":       { quality: "exotic", type: "Shotgun" },
-  "Mechanical Animal": { quality: "exotic", type: "AR", note: "alt to Scorpio; Reformation talent is weak (like Safeguard)" },
-  "BTSU Datagloves":   { quality: "exotic", type: "Gloves", aka: "resets team's Reviver Hive; group overcharge at ST6; big hive skill haste — always run" },
+  "Stack Broker":  { quality: "named",  type: "Shotgun", talent: "free talent slot (rolls any talent) — flexible named SIX12" },
+  "ACS-12":        { quality: "high",   type: "Shotgun", note: "full-auto shotgun — high sustained close-range DPS" },
+  "Lefty":         { quality: "named",  type: "Shotgun", talent: "Perfect Sledgehammer — landing a hit grants +20% DTA for a short window; must be in-hand when a grenade detonates to proc (per build note)" },
+  "Rock and Roll": { quality: "named",  type: "Shotgun", talent: "Perfectly Extra — bonus dmg / handling ramp" },
+  "Scorpio":       { quality: "exotic", type: "Shotgun", talent: "Septic Shock — hits stack venom (poison/disorient/shock); at 7 stacks the target takes +20% dmg from all sources",
+    cores: ["Shotgun Damage", "Critical Hit Damage"], thirdAttr: "rerollable (best left DTTOOC)",
+    builtInMods: "+10% Critical Hit Chance (fixed, baked in)",
+    aka: "exotic SIX12; the status/debuff shotgun" },
+  "Dark Winter":       { quality: "named", type: "SMG", talent: "Perfect Killer — a crit kill grants +50% CHD for 10s",
+    cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], thirdAttr: "rerollable (DTTOOC BIS)",
+    aka: "named Vector SBR .45 — Perfect Killer pre-baked; DZ-only farm" },
+  "Tactical Vector 9mm": { quality: "high", type: "SMG", talent: "rollable (Killer = room-clear BIS / Strained = boss ramp)",
+    cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], thirdAttr: "rerollable (DTTOOC)",
+    aka: "high-end Vector; takes full mods unlike Dark Winter's fixed talent" },
+  "M870":              { quality: "high", type: "Shotgun", talent: "rollable (Killer)",
+    cores: ["Shotgun Damage", "Critical Hit Damage"], thirdAttr: "rerollable",
+    aka: "pump-action; highest per-shot dmg, one-taps reds/purples; needs aim. Tsunami = named M870" },
+  "Tsunami":           { quality: "named", type: "Shotgun", aka: "named M870" },
+  "Mechanical Animal": { quality: "named", type: "AR", talent: "Future Perfection — kills grant a temporary Skill Tier boost (Overcharge at highest tiers)",
+    note: "named SIG 556; skill-hybrid AR — used as a Scorpio alt on skill/healer builds to push skill tier" },
+  "BTSU Datagloves":   { quality: "exotic", type: "Gloves", talent: "Transference Overclock — +15% Hive skill haste per skill tier; detonating a Hive refreshes your skill cooldowns + grants overcharge 15s; at ST6 also refreshes allies + grants them overcharge (120s ally lockout)",
+    cores: ["+1 Skill Tier"], attributes: ["Skill Haste (max +12%)", "Repair Skills (max +20%)"],
+    aka: "healer BIS — Hive haste + team overcharge at ST6; always run on FI healer" },
 
   // ---- Weapons: Marksman / Rifle ----
   "Everlasting Gaze": { quality: "named", type: "Rifle", talent: "Perfect Perpetuation", note: "headshots boost status effect dmg + duration" },
@@ -503,35 +612,88 @@ const ITEMS = {
   // ---- Weapons: Pistols / flex ----
   "586 Magnum":     { quality: "named", type: "Pistol", talent: "Perfect Finisher" },
   "Mosquito":       { quality: "exotic", type: "Pistol" },
-  "The Mop":        { quality: "named", type: "SMG", talent: "Future Perfect" },
+  "The Mop":        { quality: "named", type: "Shotgun", aka: "named SIX12 — +10% Armor on Kill (survival pick; stacks with Gunner + HF for ~40% AoK)" },
   "Backfire":       { quality: "exotic", type: "SMG", aka: "exotic SIG MPX — Payment in Kind: stacks CHD on hits, bleeds you on reload (negate with HazPro / Nurse's Kneepads)" },
   "Sidearm (flex)": { quality: "high",  type: "Pistol" },
 
   // ---- Gear: Sets ----
-  "Striker's Battlegear": { quality: "set", kind: "gearset" },
-  "Tipping Scales":       { quality: "set", kind: "gearset" },
-  "Eclipse Protocol":     { quality: "set", kind: "gearset" },
-  "Refactor":             { quality: "set", kind: "gearset" },
-  "Heartbreaker":         { quality: "set", kind: "gearset" },
+  "Striker's Battlegear": { quality: "set", kind: "gearset", core: "Weapon Damage",
+    bonuses: { "2pc": "+15% Weapon Handling", "3pc": "+15% Rate of Fire", "4pc": "Striker's Gamble (talent)" },
+    talent: "Striker's Gamble — weapon hits increase total weapon dmg +0.65%, stacks up to 100 (decays when not firing)",
+    setTalents: { chest: "Press the Advantage — Striker's Gamble max stacks 100 → 200", backpack: "Risk Management — dmg per stack 0.65% → 1%" } },
+  "Tipping Scales":       { quality: "set", kind: "gearset", core: "Weapon Damage",
+    bonuses: { "2pc": "+30% Magazine Size", "3pc": "+30% LMG Damage", "4pc": "Throttle Control (talent)" },
+    talent: "Throttle Control — shooting stacks to 50; each stack +0.5% Weapon Handling & +4% CHD. Lose 6/s while not shooting; no loss while an enemy is Suppressed",
+    setTalents: { chest: "Sustainability — max stacks 50 → 75", backpack: "Snowball — CHD per stack 4% → 7%" } },
+  "Eclipse Protocol":     { quality: "set", kind: "gearset", core: "Skill Tier",
+    bonuses: { "2pc": "+15% Status Effects", "3pc": "+15% Skill Haste, +30% Hazard Protection", "4pc": "Indirect Transmission (talent)" },
+    talent: "Indirect Transmission — your status effects spread on kill to enemies within 10m and refresh 50% of the duration",
+    setTalents: { chest: "Symptom Aggravator — +30% dmg to status-affected targets", backpack: "Proliferation — spread range 10m→15m, refresh 50%→75%" } },
+  "Future Initiative":    { quality: "set", kind: "gearset", core: "Skill Tier",
+    bonuses: { "2pc": "+30% Repair Skills", "3pc": "+15% Skill Haste, +30% Skill Duration", "4pc": "Ground Control (talent)" },
+    talent: "Ground Control — +15% weapon & skill dmg to you and allies while at full armor; repairing an ally also repairs allies within 5m for 60% of that amount",
+    setTalents: { chest: "team weapon/skill dmg bonus 15%→25% at full armor", backpack: "Ground Control proximity repair 60%→120%" } },
+  "Refactor":             { quality: "set", kind: "gearset", core: "Armor or Skill Tier (by slot)",
+    bonuses: { "2pc": "+15% Status Effects", "3pc": "+25% Skill Damage", "4pc": "Return to Sender (talent)" },
+    talent: "Return to Sender — repairs you 10% / allies 20% of the damage your skills deal",
+    setTalents: { chest: "repair received 10%→25% (self), 20%→35% (ally)", backpack: "at full armor, self-repairs become bonus armor (up to 80% of total)" } },
+  "Heartbreaker":         { quality: "set", kind: "gearset", core: "Armor",
+    bonuses: { "2pc": "+15% Assault Rifle Damage, +15% LMG Damage", "3pc": "+15% Weapon Handling", "4pc": "Heartstopper (talent)" },
+    talent: "Heartstopper — headshots apply pulse for 5s; weapon hits on pulsed enemies stack +1% bonus armor & +1.1% weapon dmg (max 50)",
+    setTalents: { chest: "Max BPM — max stacks 50 → 100", backpack: "Cold — bonus armor per stack 1% → 2%" } },
+  "Hunter's Fury":        { quality: "set", kind: "gearset", core: "Weapon Damage",
+    bonuses: { "2pc": "+15% SMG Damage, +15% Shotgun Damage", "3pc": "+20% Armor on Kill, +100% Health on Kill", "4pc": "Apex Predator (talent)" },
+    talent: "Apex Predator — enemies within 15m take +20% dmg from you; killing a debuffed enemy disorients enemies within 5m and stacks +5% weapon dmg (up to 5×, 10s)",
+    setTalents: { chest: "Endless Hunger — Apex Predator stack duration 10s → 30s", backpack: "Overwhelming Force — Apex disorient radius 5m → 10m" } },
+  "Ceska Vyroba":         { quality: "high", kind: "brand", core: "varies (roll to Weapon Damage)",
+    bonuses: { "1pc": "+8% Critical Hit Chance", "2pc": "+20% Hazard Protection", "3pc": "+90% Health" },
+    aka: "the +8% CHC brand" },
+  "Grupo Sombra":         { quality: "high", kind: "brand", core: "varies (roll to Weapon Damage)",
+    bonuses: { "1pc": "+13% Critical Hit Damage", "2pc": "+20% Explosives Damage", "3pc": "+13% Headshot Damage" },
+    aka: "the +13% CHD brand (1pc)" },
 
-  // ---- Gear: Named brand pieces ----
-  "Equalizer":          { quality: "named", talent: "Perfect Obliterate" },
-  "Force Multiplier":   { quality: "named", talent: "30% Skill Damage for 3s on hit" },
-  "Impetus":            { quality: "named", talent: "Perfect Kinetic Momentum" },
-  "The Courier":        { quality: "named", talent: "Perfect Creeping Death" },
-  "Vile":               { quality: "named", talent: "Toxic Delivery" },
-  "Electrique":         { quality: "named" },
-  "Ceska":              { quality: "named" },
-  "Česká Výroba s.r.o": { quality: "named", talent: "Vigilance" },
-  "Fox's Prayer":       { quality: "named", talent: "+8% Damage to Targets Out of Cover (Overlord brand: +10% Rifle dmg)" },
-  "Contractor's Gloves":{ quality: "named", talent: "+8% Damage to Armor (Petrov brand: +10% LMG dmg)" },
-  "Hollow Man":         { quality: "named", talent: "+10% Damage to Health (Yaahl brand: +10% Hazard Protection)" },
-  "Salvo":              { quality: "named", talent: "+5% Rate of Fire (Unit Alloys brand; 1pc = +5% RoF → +10% RoF total from one slot)" },
+  // ---- Gear: Named brand pieces (named = brand piece with a Perfect/unique talent baked in) ----
+  "Equalizer":          { quality: "named", slot: "Chest", brand: "Unit Alloys (1pc +5% RoF)", talent: "Perfect Obliterate — crit hits +1% total weapon dmg for 10s, stacks up to 24" },
+  "Hunter Killer":      { quality: "named", slot: "Chest", talent: "Perfect Intimidate — while you have bonus armor, gain a stack/sec (max ~9- class), each +weapon dmg to enemies within 10m" },
+  "Force Multiplier":   { quality: "named", slot: "Backpack", brand: "Grupo Sombra (Perfect Combined Arms)", talent: "Perfect Combined Arms — shooting an enemy increases total skill dmg +30% for 3s" },
+  "Impetus":            { quality: "named", slot: "Chest", talent: "Perfect Kinetic Momentum — skill dmg + repair build up as you move, up to 18 stacks" },
+  "The Courier":        { quality: "named", slot: "Backpack", brand: "Grupo Sombra", talent: "Perfect Creeping Death — applying a status effect also applies it to enemies within 10m (10s cd)" },
+  "Vile":               { quality: "named", slot: "Mask", talent: "Toxic Delivery — status effects you apply deal bonus damage" },
+  "Electrique":         { quality: "high", kind: "brand", core: "Skill Tier",
+    bonuses: { "1pc": "+10% Skill Damage", "2pc": "+15% Skill Damage", "3pc": "+10% Skill Haste" },
+    note: "skill brand — every piece rolls a Skill Tier core. Used as high-end gloves for the Status Effects/skill stats. (Named pieces exist — Henri chest / Lavoisier backpack — but the builds use plain HE brand pieces, no talent.)" },
+  "Ceska":              { quality: "high", kind: "brand", core: "varies (roll to Weapon Damage)",
+    bonuses: { "1pc": "+8% Critical Hit Chance", "2pc": "+20% Hazard Protection", "3pc": "+90% Health" },
+    note: "shorthand for a high-end Ceska Vyroba piece used for the +8% CHC brand bonus (helm in e10 presets). Not a named piece — no talent." },
+  "Česká Výroba s.r.o": { quality: "high", kind: "brand", core: "varies (roll to Weapon Damage)",
+    bonuses: { "1pc": "+8% Critical Hit Chance", "2pc": "+20% Hazard Protection", "3pc": "+90% Health" },
+    note: "full brand name for Ceska Vyroba. The hb-lmg Path B backpack rolls Vigilance (a real chest/backpack talent, +25% weapon dmg while skills on cooldown)." },
+  "Fox's Prayer":       { quality: "named", slot: "Kneepads", brand: "Overlord (+10% Rifle dmg)", talent: "+8% Damage to Targets Out of Cover" },
+  "Contractor's Gloves":{ quality: "named", slot: "Gloves", brand: "Petrov (+10% LMG dmg)", talent: "+8% Damage to Armor" },
+  "Hollow Man":         { quality: "named", slot: "Mask", brand: "Yaahl (1pc +10% Hazard Prot, 2pc +10% Weapon Dmg, 3pc +40% Pulse Res)", talent: "+10% Damage to Health" },
+  "Salvo":              { quality: "named", slot: "Holster", brand: "Unit Alloys", talent: "+5% Rate of Fire (1pc brand also +5% RoF → +10% RoF from one slot)" },
+  "Matador":            { quality: "named", slot: "Backpack", brand: "Walker, Harris & Co. (+5% Weapon Damage)", talent: "Perfect Adrenaline Rush — gain bonus armor near enemies; while you have bonus armor, +weapon dmg" },
+  "Liquidator":         { quality: "named", slot: "Backpack", brand: "Belstone (+1% Armor Regen)", talent: "Perfect Bloodsucker — kills grant/refresh +12% bonus armor (max 10 stacks)" },
+  "The Setup":          { quality: "named", slot: "Backpack", brand: "Uzina Getica", talent: "Perfect Opportunistic — enemies you hit with shotguns/marksman rifles take +15% dmg from all sources for 5s (requires shotgun/MMR drawn)" },
+  "Alps Summit Avenger": { quality: "high", kind: "brand", core: "Skill Tier",
+    bonuses: { "1pc": "+18% Skill Repair", "2pc": "+30% Skill Duration", "3pc": "+30% Skill Haste" },
+    talent: "rolls regular Opportunistic (the non-Perfect version of The Setup's talent)",
+    aka: "Alps Summit Armament brand backpack" },
 
   // ---- Gear: Exotics ----
-  "Memento":  { quality: "exotic" },
-  "Overdogs": { quality: "exotic", talent: "Weakest Link" },
-  "Nurse's Kneepads": { quality: "exotic", talent: "Impervious — +40% Hazard Protection to you and allies within 10m" },
+  "Memento":  { quality: "exotic", type: "Backpack", talent: "Kill Confirmed",
+    cores: ["Weapon Damage", "Armor", "Skill Tier"], note3core: "3 core attributes (no minors) + a gear mod slot — unique layout",
+    talentDetail: "Kills drop trophies. Short-term (10s, scales with cores equipped): +5% WD per red / +10% bonus armor per blue / +5% skill eff per yellow. Long-term: +1% WD, +0.1% armor regen, +1% skill eff per trophy, up to 30 stacks (300s)",
+    aka: "solo king — the 3rd blue core + trophy stacking" },
+  "Overdogs": { quality: "exotic", type: "Gloves", cores: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], talent: "Weakest Link",
+    noteHead: "Weakest Link — +30% weapon dmg, but only vs the lowest enemy tier alive:",
+    note: [
+      "Tiers: T3 grunts/rushers/snipers + proxies (turrets, drones, RC cars, seekers) → T2 engis/drones/supports → T1 heavies/bosses/hunters",
+      "Loop: clear T3 → T2 → T1  (hitting wrong tier? NO AMP)",
+      "Solo: last enemy alive always gets amp",
+      "Watch proxies — an enemy turret/RC car is T3, so the amp sits on it until it's dead"
+    ] },
+  "Nurse's Kneepads": { quality: "exotic", type: "Kneepads", cores: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], talent: "Impervious — +40% Hazard Protection to you and all allies within 10m (shared aura)" },
 
   // ---- Flex placeholder ----
   "Flex (HB set or named)": { quality: "set" }
@@ -580,9 +742,9 @@ const builds = {
       { name: "Rock and Roll",quality: "named", rec: false, stats: "Shotgun Damage / Damage to Armor", talent: "Perfectly Extra — great with Striker chest", mods: "" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Chance"], talent: null },
-      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Chance"], talent: "Risk Management" },
-      { slot: "Chest",    brand: "Equalizer",            quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage", "Critical Hit Damage"], talent: "Perfect Obliterate" },
+      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: null },
+      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Risk Management" },
+      { slot: "Chest",    brand: "Equalizer",            quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Perfect Obliterate" },
       { slot: "Gloves",   brand: "Overdogs",             quality: "exotic", stats: [], talent: null },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
@@ -605,9 +767,9 @@ const builds = {
       { name: "Rock and Roll",quality: "named", rec: false, stats: "Shotgun Damage / Damage to Armor", talent: "Perfectly Extra — great with Striker chest", mods: "" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Chance"], talent: null },
-      { slot: "Backpack", brand: "Memento",              quality: "exotic", stats: [], talent: null },
-      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage", "Critical Hit Damage"], talent: "Perfect Obliterate" },
+      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: null },
+      { slot: "Backpack", brand: "Memento",              quality: "exotic", stats: [], mod: "Critical Hit Damage", talent: null },
+      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Perfect Obliterate" },
       { slot: "Gloves",   brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Chance"], talent: null },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
@@ -625,9 +787,9 @@ const builds = {
       { name: "Sidearm (flex)", quality: "high", rec: true, stats: "—", talent: "Flex", mods: "" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Damage"], talent: null },
-      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Damage"], talent: "Risk Management" },
-      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage", "Critical Hit Damage"], talent: "Perfect Obliterate" },
+      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Risk Management" },
+      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Perfect Obliterate" },
       { slot: "Gloves",   brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Hazard Protection"], talent: null },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Hazard Protection"], talent: null },
       { slot: "Kneepads", brand: "Nurse's Kneepads",     quality: "exotic", stats: [], talent: null }
@@ -654,41 +816,41 @@ const builds = {
     ],
     // Striker core shared by every preset (chest, knees, backpack + the holster stays Striker).
     core: [
-      { slot: "Chest",    brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], talent: null },
-      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Chance"], talent: "Risk Management" },
+      { slot: "Chest",    brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Risk Management" },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
     ],
     presets: [
       {
-        id: "ceska-overdogs", label: "Ceska + Overdogs",
-        dmg: "Crit + Amp", use: "spongy add-clearing",
+        id: "hollow-contractor", label: "Hollow + Contractor", top: true,
+        dmg: "DtH + DtA", use: "armor & health",
         wildcards: [
-          { slot: "Mask",   brand: "Ceska",    quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], talent: null },
-          { slot: "Gloves", brand: "Overdogs", quality: "exotic", stats: [], talent: null }
+          { slot: "Mask",   brand: "Hollow Man",           quality: "named", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Damage to Health", talent: null },
+          { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Damage to Armor"], talent: null }
         ]
       },
       {
         id: "ceska-contractor", label: "Ceska + Contractor",
         dmg: "Crit + DtA", use: "white armor",
         wildcards: [
-          { slot: "Mask",   brand: "Ceska",                quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], talent: null },
+          { slot: "Mask",   brand: "Ceska",                quality: "high", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
           { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Damage to Armor"], talent: null }
         ]
       },
       {
-        id: "hollow-contractor", label: "Hollow + Contractor",
-        dmg: "DtH + DtA", use: "armor & health",
+        id: "ceska-overdogs", label: "Ceska + Overdogs", top: true,
+        dmg: "Crit + Amp", use: "spongy add-clearing",
         wildcards: [
-          { slot: "Mask",   brand: "Hollow Man",           quality: "named", stats: ["Weapon Damage", "Critical Hit Damage", "Damage to Health"], talent: null },
-          { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Damage to Armor"], talent: null }
+          { slot: "Mask",   brand: "Ceska",    quality: "high", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+          { slot: "Gloves", brand: "Overdogs", quality: "exotic", stats: [], talent: null }
         ]
       },
       {
         id: "hollow-overdogs", label: "Hollow + Overdogs",
         dmg: "DtH + Amp", use: "health + add ramp",
         wildcards: [
-          { slot: "Mask",   brand: "Hollow Man", quality: "named",  stats: ["Weapon Damage", "Critical Hit Damage", "Damage to Health"], talent: null },
+          { slot: "Mask",   brand: "Hollow Man", quality: "named",  stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Damage to Health", talent: null },
           { slot: "Gloves", brand: "Overdogs",   quality: "exotic", stats: [], talent: null }
         ]
       }
@@ -714,9 +876,9 @@ const builds = {
       { name: "GR9", quality: "high", rec: true, stats: "LMG Damage / 3rd: CHC", talent: "Measured", mods: "3x CHC" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Tipping Scales", quality: "set",   stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], talent: null },
-      { slot: "Backpack", brand: "Tipping Scales", quality: "set",   stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], talent: null },
-      { slot: "Chest",    brand: "Equalizer",      quality: "named", stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Chance", "Critical Hit Chance"], talent: "Perfect Obliterate" },
+      { slot: "Mask",     brand: "Tipping Scales", quality: "set",   stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Backpack", brand: "Tipping Scales", quality: "set",   stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Chest",    brand: "Equalizer",      quality: "named", stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Chance"], mod: "Critical Hit Chance", talent: "Perfect Obliterate" },
       { slot: "Gloves",   brand: "Overdogs",       quality: "exotic", stats: [], talent: null },
       { slot: "Holster",  brand: "Tipping Scales", quality: "set",   stats: ["Weapon Damage", "Critical Hit Chance"], talent: null },
       { slot: "Kneepads", brand: "Tipping Scales", quality: "set",   stats: ["Weapon Damage", "Critical Hit Chance"], talent: null }
@@ -740,9 +902,9 @@ const builds = {
       { name: "Sidearm (flex)", quality: "high", rec: true, stats: "—", talent: "Pistol doesn't matter for this build", mods: "" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Refactor",          quality: "set",   stats: ["Skill Tier", "Skill Damage", "Skill Haste"], talent: null },
-      { slot: "Backpack", brand: "Force Multiplier",  quality: "named", stats: ["Skill Tier", "Skill Damage", "Skill Haste"], talent: "30% Skill Damage for 3s on hit (both skills)" },
-      { slot: "Chest",    brand: "Impetus",           quality: "named", stats: ["Skill Tier", "Skill Haste", "Skill Damage", "Skill Haste"], talent: "Perfect Kinetic Momentum — skill damage + repair, up to 18 stacks" },
+      { slot: "Mask",     brand: "Refactor",          quality: "set",   stats: ["Skill Tier", "Skill Damage"], mod: "Skill Haste", talent: null },
+      { slot: "Backpack", brand: "Force Multiplier",  quality: "named", stats: ["Skill Tier", "Skill Damage"], mod: "Skill Haste", talent: "30% Skill Damage for 3s on hit (both skills)" },
+      { slot: "Chest",    brand: "Impetus",           quality: "named", stats: ["Skill Tier", "Skill Haste", "Skill Damage"], mod: "Skill Haste", talent: "Perfect Kinetic Momentum — skill damage + repair, up to 18 stacks" },
       { slot: "Gloves",   brand: "Refactor",          quality: "set",   stats: ["Weapon Damage", "Skill Damage"], talent: null },
       { slot: "Holster",  brand: "Refactor",          quality: "set",   stats: ["Skill Tier", "Skill Damage"], talent: null },
       { slot: "Kneepads", brand: "Refactor",          quality: "set",   stats: ["Skill Tier", "Skill Damage"], talent: null }
@@ -755,7 +917,7 @@ const builds = {
     name: "Future Initiative — Healer",
     primaries: [
       { name: "Scorpio", quality: "exotic", rec: true,  stats: "", talent: "", mods: "" },
-      { name: "Mechanical Animal", quality: "exotic", rec: false, stats: "", talent: "", mods: "", note: "only if you don't have Scorpio" }
+      { name: "Mechanical Animal", quality: "named", rec: false, stats: "", talent: "", mods: "", note: "only if you don't have Scorpio — named SIG 556, Future Perfection pushes skill tier on kill" }
     ],
     secondaries: [
       { name: "Lefty", quality: "named", rec: true, stats: "Reload Speed %", talent: "Perfect Sledgehammer", mods: "", note: "Lefty must be in-hand when the grenade detonates to proc Sledgehammer (20% DTA). Raid boss burns: proc Sledgehammer, swap to Scorpio, proc the 9th-shot buff." }
@@ -763,10 +925,27 @@ const builds = {
     primaryLabel: "Exotic slot",
     secondaryLabel: "Shotgun slot",
     gear: [
-      { slot: "Mask",     brand: "Future Initiative", quality: "set",    stats: ["Skill Tier", "Repair Skills", "Skill Haste"], talent: null },
-      { slot: "Backpack", brand: "The Setup / Alps",  quality: "named",  stats: ["Skill Tier", "Repair Skills", "Skill Haste"], talent: "Perfect Opportunistic — shot enemies take +15% from all sources; synergizes with Scorpio, beats a pure-healing talent (you already over-heal)" },
-      { slot: "Chest",    brand: "Future Initiative", quality: "set",    stats: ["Skill Tier", "Repair Skills", "Skill Haste"], talent: "FI chest — team +25% weapon dmg at full armor (vs 15% off-chest)" },
-      { slot: "Gloves",   brand: "BTSU Datagloves",   quality: "exotic", stats: ["Skill Tier", "Skill Haste", "Repair Skills"], talent: null },
+      { slot: "Mask",     brand: "Future Initiative", quality: "set",    stats: ["Skill Tier", "Repair Skills"], mod: "Skill Haste", talent: null },
+      { slot: "Backpack", sources: [
+          { name: "The Setup", quality: "named", talent: "Perfect Opportunistic" },
+          { name: "Alps Summit Avenger", quality: "high", talent: "Opportunistic" }
+        ],
+        stats: ["Skill Tier", "Repair Skills"],
+        mod: "Skill Haste",
+        talentDesc: [
+          "<span class='hl-brand'>Opportunistic</span><span class='pill-t roll'>T</span> — shot enemies take +15% from all sources",
+          "Synergizes with Scorpio; beats a pure-healing talent (you already over-heal)",
+          "<span class='hl-named'>The Setup</span> is the named piece with <span class='hl-named'>Perfect Opportunistic</span><span class='pill-t lock'>T</span> (locked — can't roll it)",
+          "<span class='hl-brand'>Alps</span> is the high-end brand piece where you roll the regular version"
+        ] },
+      { slot: "Chest",    brand: "Future Initiative", quality: "set",    stats: ["Skill Tier", "Repair Skills"], mod: "Skill Haste", talent: "FI chest — team +25% weapon dmg at full armor (vs 15% off-chest)" },
+      { slot: "Gloves",   brand: "BTSU Datagloves",   quality: "exotic", stats: ["Skill Tier", "Skill Haste", "Repair Skills"], talent: null, noteHead: "The build's engine — why it's mandatory:", note: [
+        "+15% hive skill haste per skill tier → at ST6 the hive refreshes ~90% faster (near-continuous heals)",
+        "Detonate your own hive → whole team gets Overcharge 15s (skills past T6 — huge dmg/healing)",
+        "That detonation also instantly refreshes any teammate skills on cooldown",
+        "120s cooldown. Loop: drop hive → save for a boss / big wave → crush it → 15s team god-mode",
+        "Only works at Skill Tier 6"
+      ] },
       { slot: "Holster",  brand: "Future Initiative", quality: "set",    stats: ["Skill Tier", "Repair Skills"], talent: null },
       { slot: "Kneepads", brand: "Future Initiative", quality: "set",    stats: ["Skill Tier", "Skill Haste"], talent: null }
     ],
@@ -792,10 +971,10 @@ const builds = {
       { name: "Shotgun (In Sync)", quality: "high",   rec: false, stats: "Damage to Armor", talent: "In Sync — weapon hits buff skill dmg, skill use buffs weapon dmg (doubled when both active)", mods: "", note: "if no Mop" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Vile",             quality: "named", stats: ["Skill Tier", "Status Effects", "Hazard Protection", "Skill Haste"], talent: "Toxic Delivery" },
-      { slot: "Backpack", brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects", "Skill Haste"], talent: "Symptom Aggravator" },
-      { slot: "Chest",    brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects", "Skill Haste"], talent: "Proliferation" },
-      { slot: "Gloves",   brand: "Electrique",       quality: "named", stats: ["Skill Tier", "Status Effects", "Status Effects"], talent: null },
+      { slot: "Mask",     brand: "Vile",             quality: "named", stats: ["Skill Tier", "Status Effects", "Hazard Protection"], mod: "Skill Haste", talent: "Toxic Delivery" },
+      { slot: "Backpack", brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], mod: "Skill Haste", talent: "Symptom Aggravator" },
+      { slot: "Chest",    brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], mod: "Skill Haste", talent: "Proliferation" },
+      { slot: "Gloves",   brand: "Electrique",       quality: "high", stats: ["Skill Tier", "Status Effects", "Status Effects"], talent: null },
       { slot: "Holster",  brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], talent: null },
       { slot: "Kneepads", brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], talent: null }
     ],
@@ -815,10 +994,10 @@ const builds = {
       { name: "Lefty",       quality: "named", rec: true,  stats: "Reload Speed %", talent: "Perfect Sledgehammer", mods: "" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects", "Skill Haste"], talent: null },
-      { slot: "Backpack", brand: "The Courier",      quality: "named", stats: ["Skill Tier", "Status Effects", "Skill Haste", "Skill Haste"], talent: "Perfect Creeping Death" },
-      { slot: "Chest",    brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects", "Skill Haste"], talent: "Proliferation" },
-      { slot: "Gloves",   brand: "Electrique",       quality: "named", stats: ["Skill Tier", "Status Effects", "Status Effects"], talent: null },
+      { slot: "Mask",     brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], mod: "Skill Haste", talent: null },
+      { slot: "Backpack", brand: "The Courier",      quality: "named", stats: ["Skill Tier", "Status Effects", "Skill Haste"], mod: "Skill Haste", talent: "Perfect Creeping Death" },
+      { slot: "Chest",    brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], mod: "Skill Haste", talent: "Proliferation" },
+      { slot: "Gloves",   brand: "Electrique",       quality: "high", stats: ["Skill Tier", "Status Effects", "Status Effects"], talent: null },
       { slot: "Holster",  brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], talent: null },
       { slot: "Kneepads", brand: "Eclipse Protocol", quality: "set",   stats: ["Skill Tier", "Status Effects"], talent: null }
     ],
@@ -843,14 +1022,14 @@ const builds = {
       { name: "Tactical M249 Para", quality: "high",   rec: false, stats: "LMG Damage / 2x CHC", talent: "Flatline", mods: "laser + 2x CHC", note: "LMG is NOT a good option here — listed only because it can take the laser. Prefer AR/SMG." }
     ],
     gear: [
-      { slot: "Mask",     brand: "Heartbreaker",           quality: "set",    stats: ["Armor", "Critical Hit Chance", "Critical Hit Damage"], talent: null },
+      { slot: "Mask",     brand: "Heartbreaker",           quality: "set",    stats: ["Armor", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
       { slot: "Backpack", paths: [
-          { brand: "Memento",            quality: "exotic", stats: [], talent: null },
-          { brand: "Česká Výroba s.r.o", quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage", "Critical Hit Damage"], talent: "Vigilance" }
+          { brand: "Memento",            quality: "exotic", stats: [], mod: "Critical Hit Damage", talent: null },
+          { brand: "Česká Výroba s.r.o", quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Vigilance" }
         ] },
-      { slot: "Chest",    brand: "Heartbreaker",           quality: "set",    stats: ["Armor", "Critical Hit Chance", "Critical Hit Damage"], talent: null },
+      { slot: "Chest",    brand: "Heartbreaker",           quality: "set",    stats: ["Armor", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
       { slot: "Gloves",   paths: [
-          { brand: "Ceska",    quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance"], talent: null },
+          { brand: "Ceska",    quality: "high",  stats: ["Weapon Damage", "Critical Hit Chance"], talent: null },
           { brand: "Overdogs", quality: "exotic", stats: [], talent: null }
         ] },
       { slot: "Holster",  brand: "Heartbreaker",           quality: "set",    stats: ["Armor", "Critical Hit Damage"], talent: null },
@@ -859,6 +1038,76 @@ const builds = {
     skills: ["Hive", "Crusader Shield"],
     specialization: "Technician",
     notes: "AR is preferred for the main slot if you can run it (Lexington or Police M4 with Flatline + laser). Non-AR alternatives: Vector SBR (.45 or 9mm) for max burst DPS, or SIG MPX for sustained mid-range control. LMG option uses the Tactical M249 Para (the laser-rail 249 variant — HB needs pulse, so not the no-laser M249B/MK46). ACS-12 (Brazen + Linked Laser Pointer) goes in the off slot. Two gear paths differ only in backpack + gloves — Path A: Memento + Ceska gloves. Path B: Česká Výroba backpack (Vigilance) + Overdogs gloves. Need 4 Heartbreaker pieces total; mask and holster are flex. Skills: Hive + Crusader Shield. Spec: Technician — lets you run a linked laser pointer on a weapon that can take it."
+  },
+  "hunters-fury": {
+    name: "Hunter's Fury",
+    dualWeapon: true,
+    arLabel: "SMG",
+    lmgLabel: "Shotgun",
+    mainLabel: "SMG",
+    offLabel: "Shotgun",
+    offSlot: false,
+    toggleGroups: true,
+    secondary: { name: "Scorpio", quality: "exotic", stats: "", talent: "", mods: "", note: "shotgun-slot BIS" },
+    ars: [
+      { name: "Dark Winter",         quality: "named", rec: true,  stats: "SMG Damage", talent: "Perfect Killer", mods: "", note: "god-roll Vector — Perfect Killer baked in" },
+      { name: "Tactical Vector 9mm", quality: "high",  rec: false, stats: "SMG Damage / CHC / CHD", talent: "Killer", mods: "full mods (extra CHC/CHD)", note: "Killer = room-clear BIS; Strained = boss ramp. Takes mods (Ouro can't)." },
+      { name: "Ouroboros",           quality: "exotic", rec: false, stats: "", talent: "", mods: "", note: "easy-mode: ~1500 RPM, highest fire rate, forgiving spray; talent Rule Them All spreads status effects back at enemies" }
+    ],
+    lmgs: [
+      { name: "Scorpio", quality: "exotic", rec: true,  stats: "", talent: "", mods: "", note: "shotgun BIS" },
+      { name: "M870",    quality: "high",   rec: false, stats: "Shotgun Damage", talent: "Killer", mods: "", note: "one-tap king (highest per-shot); pump-action, needs aim. Tsunami = named M870." },
+      { name: "The Mop", quality: "named",  rec: false, stats: "Armor on Kill %", talent: "", mods: "", note: "survival: +10% AoK → ~40% with Gunner + HF. Trades a dmg talent for utility." }
+    ],
+    gear: [
+      { slot: "Mask",     brand: "Hunter's Fury", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Backpack", toggle: {
+          solo:  { brand: "Memento",         quality: "exotic", stats: [], mod: "Critical Hit Damage", talent: null, note: "solo king — 3 cores (Weapon Damage / Armor / Skill Tier) + a mod slot. Run a CHD mod. (Bloodsucker = tier-2 placeholder until Memento drops)" },
+          group: { brand: "Grupo Sombra",  quality: "high",   stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Adrenaline Rush", note: "Pure CHD injection — your 51% CHC is set by the SMG + SHD + Ceska chest, so this adds crit dmg with zero CHC on it. Roll CHD on both the attribute and the gear mod: +13% brand (1pc) + 12% attribute + 12% mod ≈ +37% CHD over the solo Memento. Must drop with Adrenaline Rush." }
+        } },
+      { slot: "Chest",    brand: "Ceska Vyroba", quality: "high", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Intimidate", talentNote: [
+        "Roll <span class='hl-brand'>Intimidate</span><span class='pill-t roll'>T</span> (BIS — +weapon dmg to close enemies, needs bonus armor) or <span class='hl-brand'>Obliterate</span><span class='pill-t roll'>T</span> (crit-proc, always on)",
+        "Brand MUST be <span class='hl-brand'>Ceska Vyroba</span> — its +8% CHC brand is part of the 60% cap math; a different brand breaks it",
+        "Run a CHC attribute + CHC gear mod here (6% + 6%) — this is the ONLY CHC on your gear; it puts the SMG at 51%, the optimal (all HF pieces go CHD)",
+        "Only 2 of 3 (CHC / CHD / <span class='hl-brand'>Intimidate</span><span class='pill-t roll'>T</span>) need to drop naturally — recalibrate the missing slot"
+      ] },
+      { slot: "Gloves",   brand: "Hunter's Fury", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
+      { slot: "Holster",  brand: "Hunter's Fury", quality: "set", stats: ["Armor", "Critical Hit Damage"], talent: null },
+      { slot: "Kneepads", brand: "Hunter's Fury", quality: "set", stats: ["Armor", "Critical Hit Damage"], talent: null }
+    ],
+    gearNote: "The point: hit 51% CHC on the SMG from weapon + SHD + Ceska chest alone, so the backpack never touches crit — swapping Memento (solo) ↔ Grupo (group) keeps CHC identical. Only the Ceska chest rolls CHC (attribute + mod); all four HF pieces (Mask/Gloves/Holster/Kneepads) roll CHD. Holster + Kneepads run blue Armor cores for the shield; Mask + Gloves are red WD cores.",
+    skills: ["Hive", "Crusader Shield (if running a shield)"],
+    specialization: "Gunner",
+    specOptions: [
+      { name: "Gunner",     tier: "core",  detail: "S-tier, the answer. +10% Armor on Kill (stacks with HF 20% → 30% AoK), +RoF on kill (near 100% uptime chaining kills), Banshee Pulse panic button." },
+      { name: "Technician", tier: "ideal", detail: "A-tier, tankier. +1 Skill Tier (shield health); Linked Laser Pointer if you swap to Spotter." },
+      { name: "Firewall",   tier: "dps",   detail: "B-tier, group shield cone (buffs allies shooting through it). Clunky solo — Gunner's AoK/RoF win for CQC pace." }
+    ],
+    warnings: [
+      "Running the Crusader Shield? Keep at least 2 blue Armor cores (Holster + Kneepads). No shield? You can still keep them for survivability — or go red for more damage."
+    ],
+    chdRules: [
+      "Crit usually wins: HF stacks huge base Weapon Damage (Memento + Intimidate), so the WD bucket is saturated — extra CHD beats extra WD brand bonuses.",
+      "The exception: low Weapon Damage (e.g. 2 red cores, no Memento) → WD brand bonuses beat CHD.",
+      "Cap check: CHD already very high (>150%)? Put DTTOOC on your weapon — separate multiplicative bucket, beats both."
+    ],
+    chdBottom: "Unless total Weapon Damage is under ~50%, Critical Hit Damage is the safer, stronger choice.",
+    capMath: {
+      head: "Target: 51% CHC on the SMG — not the 60% cap. Every roll past 51% is worth more as CHD than CHC, so stop CHC at the chest and dump the rest into CHD.",
+      gear: [
+        "SMG base: 21% native + 10% SHD watch + 8% Ceska = 39%",
+        "Ceska chest: CHC attribute +6% + CHC mod +6% = +12% → 51% CHC",
+        "That's the whole CHC budget — chest is the ONLY CHC-roll piece",
+        "Mask, Gloves, Holster, Kneepads all roll CHD (12% each beats CHC's 6%)"
+      ],
+      weapons: [
+        "Why 51%, not 60%: a CHC roll is +6%, a CHD roll is +12%. Past ~51% CHC on this SMG, the avg-damage multiplier 1 + (CHC × CHD) is higher if that roll goes to CHD instead. 51% is the peak; 60% wastes rolls.",
+        "Backpack carries ZERO CHC — Memento (solo) ↔ Grupo (group) leaves the SMG's crit untouched",
+        "Scorpio lands ~40% CHC on this gear (10% built-in mod + 10% SHD + 8% Ceska + 12% chest) — no native crit core like the SMG. That's fine: it's the debuff weapon (Septic Shock), not your crit-damage weapon. 3rd attribute stays DTTOOC."
+      ],
+      note: "Exact numbers vary by your rolls — use the CHC Checker to dial in, or the Damage Calc to compare setups. SHD watch assumes a maxed Offense CHC node (+10%). Solo, 51% clearly beats 57% and 60% (each step toward the cap trades a 12% CHD roll for a 6% CHC roll you don't need); in a group with high CHD, 51% vs 57% is nearly a tie."
+    },
+    notes: "Aggressive CQC run-and-gun — instant burst, crowd control on kill, armor-on-kill survivability. No Striker ramp-up. 4× Hunter's Fury (Mask/Gloves/Holster/Kneepads) + Ceska chest with Intimidate + backpack (Memento solo / Grupo group). Weapons are preference — Scorpio + an SMG (Dark Winter BIS). Killer talent on anything not exotic/locked. The whole point of the CHC layout: hit 51% CHC on the SMG from gear + weapon alone (chest is the only CHC piece, everything else CHD), so the backpack is a free damage slot and solo↔group swaps never move crit."
   }
 };
 
@@ -917,7 +1166,7 @@ function opt(w) {
 // Build groups by role. Order here = display order. Builds listed by key.
 const BUILD_GROUPS = [
   { role: "DPS",        ids: ["striker-general", "striker-solo", "striker-e10", "ts-lmg"] },
-  { role: "DPS Hybrid", ids: ["striker-hazpro", "hb-lmg"] },
+  { role: "DPS Hybrid", ids: ["striker-hazpro", "hb-lmg", "hunters-fury"] },
   { role: "Healer",     ids: ["refactor-skill", "fi-healer"] },
   { role: "CC",         ids: ["ep-cc"] },
   { role: "Other",      ids: ["ep-fire"] },
@@ -935,8 +1184,9 @@ function tabs(active) {
     </div>`;
   }).join('');
   const toolTab = `<button class="tab tab-tool ${active==='chc-checker'?'active':''}" onclick="renderChcChecker()">⚡ CHC Checker</button>`;
+  const dmgTab = `<button class="tab tab-tool ${active==='dmg-calc'?'active':''}" onclick="renderDmgCalc()">🎯 Roll Advisor</button>`;
   const teamsTab = `<button class="tab tab-tool ${active==='teams'?'active':''}" onclick="renderTeams()">👥 Teams</button>`;
-  document.getElementById("tabs").innerHTML = groupsHtml + `<div class="tab-tools-row">${toolTab}${teamsTab}</div>`;
+  document.getElementById("tabs").innerHTML = groupsHtml + `<div class="tab-tools-row">${toolTab}${dmgTab}${teamsTab}</div>`;
 }
 
 function secHead(t) { return `<div class="sec-head"><span class="bar"></span><h2>${t}</h2><span class="rule"></span></div>`; }
@@ -964,10 +1214,16 @@ const STAT_ORDER = [
   "Armor", "Health", "Hazard Protection", "Protection from Elites"
 ];
 function orderStats(stats) {
-  return (stats || []).slice().sort((a, b) => {
+  // The core attribute is always the FIRST listed stat and must stay on top (matches in-game,
+  // where the top slot is the core). Only the remaining attributes get canonical ordering.
+  const arr = (stats || []).slice();
+  if (arr.length <= 1) return arr;
+  const core = arr[0];
+  const rest = arr.slice(1).sort((a, b) => {
     const ia = STAT_ORDER.indexOf(a), ib = STAT_ORDER.indexOf(b);
     return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
   });
+  return [core, ...rest];
 }
 
 // Normalize a gear piece into a comparable signature (brand + stat makeup + talent).
@@ -985,6 +1241,7 @@ function sharedWith(currentId, slot, piece) {
     if (id === currentId) continue;
     (b.gear || []).forEach(g => {
       if (g.slot !== slot) return;
+      if (g.toggle || g.sources) return; // toggle / multi-source slots aren't compared for reuse
       const candidates = g.paths ? g.paths : [g];
       candidates.forEach(c => { if (pieceSig(c) === sig) matches.push(b.name); });
     });
@@ -1003,20 +1260,92 @@ function specWarning(b) {
 }
 
 // Render a single normal gear card (non-split).
+let hfMode = {}; // buildId -> 'solo' | 'group'
 function gearCard(id, g) {
+  // Toggle slot (solo/group backpack): pick the active variant, render a switch.
+  if (g.toggle) {
+    const mode = hfMode[id] || 'solo';
+    const active = g.toggle[mode];
+    const inner = gearCard(id, Object.assign({ slot: g.slot }, active));
+    const sw = `<div class="gtoggle">
+      <button class="gtoggle-btn ${mode==='solo'?'on':''}" onclick="setHfMode('${id}','solo')">Solo</button>
+      <button class="gtoggle-btn ${mode==='group'?'on':''}" onclick="setHfMode('${id}','group')">Group</button>
+    </div>`;
+    return inner.replace('<div class="g-top">', sw + '<div class="g-top">');
+  }
   const gq = itemQuality(g.brand, g.quality);
   const gt = (gq !== 'exotic') ? (itemTalent(g.brand) || g.talent) : null;
   const shared = (gq !== 'exotic') ? sharedWith(id, g.slot, g) : [];
+  // Fall back to the DB's canonical note for this item (e.g. Overdogs) when the piece has none.
+  const dbItem = ITEMS[g.brand] || {};
+  const noteHead = g.noteHead || dbItem.noteHead;
+  const note = g.note || dbItem.note;
+  // Multi-source piece: one slot, multiple source items of different quality (e.g. named "The Setup" vs high-end "Alps").
+  if (g.sources) {
+    return `<div class="qcard g q-multi">
+      <div class="g-top"><span class="g-slot">${g.slot}</span></div>
+      <div class="g-sources">
+        ${g.sources.map(s => {
+          const locked = s.quality === 'named' || /^Perfect\b/.test(s.talent || '');
+          return `<div class="g-src q-${s.quality}"><span class="g-src-name">${s.name}</span><span class="tag q-${s.quality}">${QLABEL[s.quality]}</span><span class="g-src-tal">${s.talent}<span class="pill-t ${locked?'lock':'roll'}">T</span></span></div>`;
+        }).join('')}
+      </div>
+      ${(() => {
+        const hasModSlot = ["Mask", "Backpack", "Chest"].includes(g.slot);
+        const body = orderStats(g.stats).map(st => `<div class="stat"><i class="dot-${statColor(st)}"></i>${st}</div>`).join('');
+        const modLine = !hasModSlot ? ''
+          : (g.mod
+              ? `<div class="stat stat-mod"><i class="dot-${statColor(g.mod)}"></i>${g.mod}<span class="mod-tag">MOD</span></div>`
+              : `<div class="stat stat-mod stat-mod-empty"><i class="dot-empty"></i><span class="mod-empty-txt">open mod slot</span><span class="mod-tag">MOD</span></div>`);
+        return body + modLine;
+      })()}
+      ${g.talentDesc ? (Array.isArray(g.talentDesc)
+        ? `<div class="g-notelist">${g.talentDesc.map(n => `<div class="g-bullet">${n}</div>`).join('')}</div>`
+        : `<div class="g-talnote">${g.talentDesc}</div>`) : ''}
+    </div>`;
+  }
   return `<div class="qcard g q-${gq}">
     <div class="g-top"><span class="g-slot">${g.slot}</span><span class="tag q-${gq}">${QLABEL[gq]}</span></div>
     <div class="g-brand">${g.brand}</div>
     ${gq === 'exotic'
-      ? `${(g.stats && g.stats.length) ? orderStats(g.stats).map(s => `<div class="stat"><i class="dot-${statColor(s)}"></i>${s}</div>`).join('') : ''}
-         <div class="g-fixed">Exotic — fixed roll</div>`
-      : `${orderStats(g.stats).map(s => `<div class="stat"><i class="dot-${statColor(s)}"></i>${s}</div>`).join('')}
-         ${gt ? `<div class="g-talent">${gt}</div>` : ''}`}
+      ? (() => {
+          // Exotic cores: use build-supplied stats if present, else the DB's canonical cores.
+          const cores = (g.stats && g.stats.length) ? g.stats : (dbItem.cores || []);
+          const coreLines = cores.map(s => `<div class="stat"><i class="dot-${statColor(s)}"></i>${s}</div>`).join('');
+          // Exotic Mask/Backpack/Chest still have a mod slot (e.g. Memento).
+          const hasModSlot = ["Mask", "Backpack", "Chest"].includes(g.slot);
+          const modLine = !hasModSlot ? ''
+            : (g.mod
+                ? `<div class="stat stat-mod"><i class="dot-${statColor(g.mod)}"></i>${g.mod}<span class="mod-tag">MOD</span></div>`
+                : `<div class="stat stat-mod stat-mod-empty"><i class="dot-empty"></i><span class="mod-empty-txt">open mod slot</span><span class="mod-tag">MOD</span></div>`);
+          return `${coreLines}${modLine}<div class="g-fixed">Exotic — fixed roll</div>`;
+        })()
+      : (() => {
+          // Mask/Backpack/Chest have a mod slot. The mod value lives in its own g.mod field
+          // (set during the data migration); stats holds only core + attributes. If a mod-slot
+          // piece has no g.mod, show an empty slot so the count is still right.
+          const hasModSlot = ["Mask", "Backpack", "Chest"].includes(g.slot);
+          const bodyStats = orderStats(g.stats);
+          const modLine = !hasModSlot ? ''
+            : (g.mod
+                ? `<div class="stat stat-mod"><i class="dot-${statColor(g.mod)}"></i>${g.mod}<span class="mod-tag">MOD</span></div>`
+                : `<div class="stat stat-mod stat-mod-empty"><i class="dot-empty"></i><span class="mod-empty-txt">open mod slot</span><span class="mod-tag">MOD</span></div>`);
+          return `${bodyStats.map(s => `<div class="stat"><i class="dot-${statColor(s)}"></i>${s}</div>`).join('')}
+         ${modLine}
+         ${gt ? `<div class="g-talent">${gt}</div>` : ''}`;
+        })()}
+    ${g.talentNote ? (Array.isArray(g.talentNote)
+      ? `<div class="g-notelist">${g.talentNote.map(n => `<div class="g-bullet">${n}</div>`).join('')}</div>`
+      : `<div class="g-talnote">${g.talentNote}</div>`) : ''}
+    ${note ? (Array.isArray(note)
+      ? `<div class="g-notelist">${noteHead ? `<div class="g-notehead">${noteHead}</div>` : ''}${note.map(n => `<div class="g-bullet">${n}</div>`).join('')}</div>`
+      : `<div class="g-talnote">${note}</div>`) : ''}
     ${shared.length ? `<div class="reuse">↻ Same as ${shared.join(', ')}</div>` : ''}
   </div>`;
+}
+function setHfMode(id, mode) {
+  hfMode[id] = mode;
+  render(id);
 }
 
 // Render a preset build (e10): updates the grid + active button for the chosen preset.
@@ -1062,13 +1391,14 @@ const GEAR_SLOTS = [
   { key: "knees",    label: "Kneepads", mod: false },
 ];
 
-let chc = { weapon: { innate:"", mod1:"", mod2:"", mod3:"" }, gear: {}, coyote: "none" };
+let chc = { shd:"", weapon: { innate:"", mod1:"", mod2:"", mod3:"" }, gear: {}, coyote: "none" };
 GEAR_SLOTS.forEach(s => chc.gear[s.key] = { innate:"", roll1:"", roll2:"", mod:"" });
 
 function n(v){ return parseFloat(v) || 0; }
 function coyoteChc(){ const o = COYOTE_OPTIONS.find(c => c.key === chc.coyote); return o ? o.chc : 0; }
 function chcTotal(){
   let t = 0;
+  t += n(chc.shd);
   const w = chc.weapon; t += n(w.innate)+n(w.mod1)+n(w.mod2)+n(w.mod3);
   GEAR_SLOTS.forEach(s => { const g = chc.gear[s.key]; t += n(g.innate)+n(g.roll1)+n(g.roll2)+n(g.mod); });
   t += coyoteChc();
@@ -1105,6 +1435,13 @@ function renderChcChecker(){
     <div class="chc-tool">
       <div class="chc-readout" id="chc-readout"></div>
       <div class="chc-slots">
+        <div class="chc-slot">
+          <div class="chc-slot-name">SHD Watch</div>
+          <div class="chc-fields">
+            <label>Offense CHC ${chcField('shd','10')}</label>
+            <span class="chc-namod">maxed = +10%</span>
+          </div>
+        </div>
         ${weaponRow}
         ${gearRows}
         <div class="chc-slot chc-coyote">
@@ -1116,35 +1453,8 @@ function renderChcChecker(){
         </div>
       </div>
       <div class="chc-actions"><button class="chc-clear" onclick="chcReset()">Reset all</button></div>
-
-      ${secHead("Crit comparison (A vs B)")}
-      <div class="crit-tool">
-        <div class="crit-inputs">
-          <div class="crit-col">
-            <div class="crit-col-h">Option A</div>
-            <label>CHC <input class="chc-f" type="number" step="0.1" value="${critCmp.a.chc}" placeholder="0" oninput="critSet('a','chc',this.value)" /></label>
-            <label>CHD <input class="chc-f" type="number" step="0.1" value="${critCmp.a.chd}" placeholder="0" oninput="critSet('a','chd',this.value)" /></label>
-          </div>
-          <div class="crit-col">
-            <div class="crit-col-h">Option B</div>
-            <label>CHC <input class="chc-f" type="number" step="0.1" value="${critCmp.b.chc}" placeholder="0" oninput="critSet('b','chc',this.value)" /></label>
-            <label>CHD <input class="chc-f" type="number" step="0.1" value="${critCmp.b.chd}" placeholder="0" oninput="critSet('b','chd',this.value)" /></label>
-          </div>
-        </div>
-        <div id="crit-result" class="crit-result"></div>
-        <div class="chc-note">Multiplier = 1 + (CHC × CHD), CHC capped at 60%. Crit-vs-crit comparisons only.</div>
-
-        <div class="crit-rules">
-          <div class="crit-rules-h">Rules of thumb</div>
-          <div class="crit-rule"><span class="cr-n">1a</span>CHC almost always better — unless (1b).</div>
-          <div class="crit-rule"><span class="cr-n">1b</span>Break-even: <b>CHD = 2× CHC</b> per equivalent roll (so pick either).</div>
-          <div class="crit-rule"><span class="cr-n">2</span>55–65% (near cap): <b>1 CHC ≈ 3 CHD</b>.</div>
-          <div class="crit-rule"><span class="cr-n">3</span>Don't go over 60% — overcap is wasted. Exception: external buffs you didn't build for (a 2nd Coyote's in the group, Countdown Hunter buff, etc.) — those aren't your fault, nothing to do about it.</div>
-        </div>
-      </div>
     </div>`;
   updateChcReadout();
-  updateCritReadout();
 }
 function updateChcReadout(){
   const total = chcTotal();
@@ -1176,45 +1486,146 @@ function chcCoyote(key){
   renderChcChecker();
 }
 function chcReset(){
+  chc.shd = "";
   chc.weapon = { innate:"", mod1:"", mod2:"", mod3:"" };
   GEAR_SLOTS.forEach(s => chc.gear[s.key] = { innate:"", roll1:"", roll2:"", mod:"" });
   chc.coyote = "none";
   renderChcChecker();
 }
 
-// ===== Crit comparison (A vs B) — generic, enter any CHC/CHD into either side =====
-let critCmp = { a: { chc:"", chd:"" }, b: { chc:"", chd:"" } };
-// crit multiplier = 1 + (min(CHC,60%) × CHD). CHC clamps at the 60% cap; CHD has no cap.
-function critMult(chcVal, chdVal) {
-  const c = Math.min(n(chcVal), CHC_CAP) / 100;
-  const d = n(chdVal) / 100;
-  return 1 + (c * d);
+// ===== Roll Advisor (A vs B per-shot comparison, session-only) =====
+// Compares two configurations on relative per-shot damage. Only the buckets that can change
+// which config wins are inputs — amps, RoF/DPS, and headshots are omitted (amps are constant
+// multipliers that scale A and B equally; RoF is a DPS axis needing a full sim; headshot rate
+// is aim, not a build stat). Base damage is dropped too — this is a unitless relative score.
+//
+// Per-shot score (relative):
+//   score = (1 + WD/100) × (1 + (CHC/100 × CHD/100)) × targetBucket × (1 + DtToC/100)
+//   where targetBucket is (1 + DtA/100) vs an armored target, or (1 + DtH/100) vs a health target.
+// DtA and DtH never apply to the same bullet, so we show both target states rather than blending
+// them with a guessed uptime. CHC clamps at the 60% cap.
+
+function blankRoll(){ return { chc:"", chd:"", wd:"", dta:"", dth:"", dtoc:"" }; }
+let rollAdv = { a: blankRoll(), b: blankRoll() };
+
+function rollScore(s, targetState){
+  const wd   = 1 + n(s.wd)/100;
+  const chc  = Math.min(n(s.chc), CHC_CAP)/100;
+  const chd  = n(s.chd)/100;
+  const crit = 1 + (chc * chd);
+  const dtoc = 1 + n(s.dtoc)/100;
+  const targ = targetState === 'armor' ? (1 + n(s.dta)/100) : (1 + n(s.dth)/100);
+  return wd * crit * targ * dtoc;
 }
-function critSet(side, field, value) { critCmp[side][field] = value; updateCritReadout(); }
-function updateCritReadout() {
-  const ma = critMult(critCmp.a.chc, critCmp.a.chd);
-  const mb = critMult(critCmp.b.chc, critCmp.b.chd);
-  const el = document.getElementById('crit-result');
-  if (!el) return;
-  const aFilled = critCmp.a.chc !== "" || critCmp.a.chd !== "";
-  const bFilled = critCmp.b.chc !== "" || critCmp.b.chd !== "";
-  const over = (v) => n(v) > CHC_CAP ? ` <span class="crit-clamp">(CHC clamped to 60)</span>` : '';
-  let verdict = '';
-  if (aFilled && bFilled) {
-    if (Math.abs(ma - mb) < 0.0001) verdict = `<div class="crit-verdict tie">Equal — both ${ma.toFixed(3)}×</div>`;
-    else {
-      const winner = ma > mb ? 'A' : 'B';
-      const diff = ((Math.max(ma,mb)/Math.min(ma,mb) - 1) * 100).toFixed(1);
-      verdict = `<div class="crit-verdict">${winner} wins — +${diff}% more crit damage</div>`;
-    }
+
+function rollField(side, key, ph, note){
+  const val = rollAdv[side][key];
+  const noteHtml = note ? `<span class="dmg-lab-note"> ${note}</span>` : '';
+  return `<div class="dmg-field"><span>${rollLabel(key)}${noteHtml}</span>
+    <input class="dmg-f" type="number" step="any" value="${val}" placeholder="${ph}" oninput="rollSet('${side}','${key}',this.value)" /></div>`;
+}
+function rollLabel(key){
+  return ({ chc:"CHC %", chd:"CHD %", wd:"Weapon Dmg %", dta:"Dmg to Armor %",
+    dth:"Dmg to Health %", dtoc:"Dmg to OoC %" })[key] || key;
+}
+
+function rollCol(side){
+  return `
+    <div class="dmg-col col-${side}">
+      <div class="dmg-col-h">Scenario ${side.toUpperCase()}</div>
+      <div class="dmg-sub">Crit</div>
+      ${rollField(side,'chc','0')}
+      ${rollField(side,'chd','0')}
+      <div class="dmg-sub">Weapon damage</div>
+      ${rollField(side,'wd','0','cores 15%/ea + exp 1%/lvl + WD & type rolls')}
+      <div class="dmg-sub">Target buckets <span class="dmg-lab-note">(own multipliers)</span></div>
+      ${rollField(side,'dta','0')}
+      ${rollField(side,'dth','0')}
+      ${rollField(side,'dtoc','0','leave 0 if not shooting out-of-cover targets')}
+      <div class="dmg-out" id="roll-out-${side}"></div>
+    </div>`;
+}
+
+function renderDmgCalc(){
+  tabs('dmg-calc');
+  document.getElementById("content").innerHTML = `
+    ${secHead("Roll Advisor")}
+    <div class="dmg-tool">
+      <div class="dmg-intro">
+        <div class="dmg-intro-lead">Compare two roll setups to see which does more per-shot damage — for deciding where a roll should go (CHC vs CHD vs Weapon Damage vs a target piece like Fox's Prayer).</div>
+        <ul class="dmg-intro-list">
+          <li>It's a <b>relative score</b>, not a real damage number.</li>
+          <li><b>Weapon Dmg %</b> = one summed bucket: red cores (15% each) + expertise (1%/level) + WD rolls + weapon-type dmg.</li>
+          <li><b>DtA / DtH</b> never hit the same bullet, so results show two target states: <b>vs armored</b> and <b>vs health</b>.</li>
+          <li>Amps, rate of fire, and headshots are left out — they don't change which setup wins.</li>
+          <li>CHC caps at 60%.</li>
+          <li><b>Reading a close result:</b> this score is an <i>average</i>. It undervalues CHC's consistency — at low CHC most shots don't crit, so damage is swingy in practice. If a config wins only by dropping a big chunk of CHC for a small gain, treat that as a loss, not a win.</li>
+        </ul>
+        <div class="dmg-ref">
+          <div class="dmg-ref-h">Common pieces &amp; which field they feed</div>
+          <div class="dmg-ref-grid">
+            <div class="dmg-ref-cat"><span class="dmg-ref-lab">CHC</span><span>Ceska Vyroba (+8%), Wyvern Wear (+10%)</span></div>
+            <div class="dmg-ref-cat"><span class="dmg-ref-lab">CHD</span><span>Grupo Sombra (+13%), Sokolov 2pc (+13%), Wyvern 2pc (+7%)</span></div>
+            <div class="dmg-ref-cat"><span class="dmg-ref-lab">Weapon Dmg</span><span>red cores, expertise, WD rolls — <b>+ weapon-type brands:</b> Sokolov (SMG), Fenris (AR), Overlord (Rifle), Airaldi (MMR), Petrov (LMG), Badger/China Light (Shotgun) — all +10%, only count for that weapon</span></div>
+            <div class="dmg-ref-cat"><span class="dmg-ref-lab">Dmg to OoC</span><span>Fox's Prayer (Overlord knees)</span></div>
+            <div class="dmg-ref-cat"><span class="dmg-ref-lab">Dmg to Armor</span><span>Airaldi 3pc (+5%), Walker Harris</span></div>
+          </div>
+          <div class="dmg-ref-note">Not exhaustive — just the common ones so you know what an option feeds. A weapon-type brand (e.g. Sokolov's SMG dmg) goes in Weapon Dmg, only for that weapon.</div>
+        </div>
+      </div>
+      <div class="dmg-actions">
+        <button class="dmg-copy" onclick="rollCopyAtoB()">Copy A → B</button>
+        <button class="dmg-clear" onclick="rollReset()">Reset all</button>
+      </div>
+      <div class="dmg-cols">
+        ${rollCol('a')}
+        ${rollCol('b')}
+      </div>
+      <div id="roll-delta"></div>
+    </div>`;
+  updateRollOut();
+}
+
+function rollOutBlock(s){
+  const arm = rollScore(s, 'armor');
+  const hp  = rollScore(s, 'health');
+  return `
+    <div class="dmg-out-grp">
+      <div class="dmg-out-row"><span class="k">vs armored</span><span class="v">${arm.toFixed(4)}×</span></div>
+      <div class="dmg-out-row"><span class="k">vs health</span><span class="v">${hp.toFixed(4)}×</span></div>
+    </div>`;
+}
+
+function rollDeltaRow(label, av, bv){
+  const pct = (bv/av - 1) * 100;
+  const cls = Math.abs(pct) < 0.005 ? 'flat' : (pct > 0 ? 'up' : 'down');
+  const sign = pct > 0 ? '+' : '';
+  const txt = Math.abs(pct) < 0.005 ? 'even' : `${sign}${pct.toFixed(2)}%`;
+  const winner = Math.abs(pct) < 0.005 ? '' : (pct > 0 ? ' (B wins)' : ' (A wins)');
+  return `<div class="dmg-delta-row"><span class="k">${label}</span><span class="v ${cls}">${txt}${winner}</span></div>`;
+}
+
+function updateRollOut(){
+  const ea = document.getElementById('roll-out-a'); if (ea) ea.innerHTML = rollOutBlock(rollAdv.a);
+  const eb = document.getElementById('roll-out-b'); if (eb) eb.innerHTML = rollOutBlock(rollAdv.b);
+  const d = document.getElementById('roll-delta'); if (!d) return;
+  const filled = (s) => Object.values(s).some(v => v !== "" && v !== null);
+  if (filled(rollAdv.a) && filled(rollAdv.b)){
+    d.innerHTML = `
+      <div class="dmg-delta">
+        <div class="dmg-delta-h">B vs A</div>
+        ${rollDeltaRow('vs armored target', rollScore(rollAdv.a,'armor'), rollScore(rollAdv.b,'armor'))}
+        ${rollDeltaRow('vs health target',  rollScore(rollAdv.a,'health'), rollScore(rollAdv.b,'health'))}
+      </div>`;
+  } else {
+    d.innerHTML = `<div class="dmg-delta"><div class="dmg-delta-h">B vs A</div><div class="dmg-delta-row"><span class="k">Fill both scenarios to compare</span><span class="v flat"></span></div></div>`;
   }
-  el.innerHTML = `
-    <div class="crit-cols">
-      <div class="crit-out ${aFilled && ma>=mb ? 'win' : ''}"><span class="crit-lab">A</span><span class="crit-mult">${ma.toFixed(3)}×</span>${over(critCmp.a.chc)}</div>
-      <div class="crit-out ${bFilled && mb>ma ? 'win' : ''}"><span class="crit-lab">B</span><span class="crit-mult">${mb.toFixed(3)}×</span>${over(critCmp.b.chc)}</div>
-    </div>
-    ${verdict}`;
 }
+
+function rollSet(side, key, value){ rollAdv[side][key] = value; updateRollOut(); }
+function rollCopyAtoB(){ rollAdv.b = JSON.parse(JSON.stringify(rollAdv.a)); renderDmgCalc(); }
+function rollReset(){ rollAdv = { a: blankRoll(), b: blankRoll() }; renderDmgCalc(); }
+
 
 // ===== Teams tab (4-man composition reference) =====
 const TEAM_COMPS = [
@@ -1297,6 +1708,27 @@ const TEAM_COMPS = [
   }
 ];
 
+// ===== Changelog (version stamp opens this) =====
+// Add newest entries at the TOP. One object per published version.
+const CHANGELOG = [
+  { v: "v0000003", notes: ["Roll Advisor tab added (A/B per-shot compare: CHC/CHD/WD + target buckets, with common-pieces reference)", "Gear mod-slot rendering fixed (core pinned on top, mod as its own field, correct slot counts)", "Exotic gear cards now show their cores + mod slot (Memento, Overdogs, Nurse's Kneepads, BTSU)", "Hunter's Fury retuned to 51% CHC (chest-only CHC, verified optimal — cap-math and notes updated)", "Old crit A/B comparison removed from CHC Checker (superseded by Roll Advisor)"] },
+  { v: "v0000002", notes: ["Hunter's Fury build added (solo/group backpack toggle, weapon tier lists, CHD-vs-WD rules callout)", "Fixed The Mop (named SIX12 shotgun, +10% Armor on Kill — was mis-stored as an SMG)", "Changelog moved to its own page (from the version stamp)"] },
+  { v: "v0000001", notes: ["FI Healer build added", "Teams tab (4-man comps) added", "Exotic gear/weapon 3rd-stat handling + fixes", "Version stamp added"] }
+];
+
+function renderChangelog() {
+  tabs('changelog');
+  const rows = CHANGELOG.map(c => `
+    <div class="cl-row">
+      <div class="cl-ver">${c.v}</div>
+      <div class="cl-notes">${c.notes.map(n => `<div class="cl-note">${n}</div>`).join('')}</div>
+    </div>`).join('');
+  document.getElementById("content").innerHTML = `
+    ${secHead("Changelog")}
+    <div class="cl-list">${rows}</div>
+  `;
+}
+
 function renderTeams() {
   tabs('teams');
   const comps = TEAM_COMPS.map(c => `
@@ -1338,9 +1770,8 @@ function render(id) {
   if (b.presetBuild) {
     const presetRows = b.presets.map(p =>
       `<button class="preset-row" data-preset="${p.id}" onclick="renderPreset('${id}','${p.id}')">
-        <span class="pr-name">${p.label}</span>
+        <span class="pr-name">${p.top ? '<span class="pr-top">◆</span>' : ''}${p.label}</span>
         <span class="pr-dmg">${p.dmg}</span>
-        <span class="pr-use">${p.use}</span>
       </button>`
     ).join('');
 
@@ -1380,8 +1811,8 @@ function render(id) {
 
   const loadoutHtml = dual
     ? `<div class="loadout">
-         ${slot("Main — AR / SMG", recOf(b.ars))}
-         ${slot("Off slot", b.secondary)}
+         ${slot(b.mainLabel || "Main — AR / SMG", recOf(b.ars))}
+         ${slot(b.offLabel || "Off slot", b.offSlot === false ? recOf(b.lmgs) : b.secondary)}
        </div>`
     : `<div class="loadout">
          ${slot(b.primaryLabel || "Primary", recOf(b.primaries))}
@@ -1393,7 +1824,7 @@ function render(id) {
          <div class="opt-grp"><div class="lbl">${b.arLabel || 'Assault Rifle / SMG'}</div>${b.ars.map(opt).join('')}</div>
          <div class="opt-grp"><div class="lbl">${b.lmgLabel || 'LMG'}</div>${b.lmgs.map(opt).join('')}</div>
        </div>
-       <div class="opt-grp"><div class="lbl">Off slot — Shotgun</div>${opt(b.secondary)}</div>`
+       ${b.offSlot === false ? '' : `<div class="opt-grp"><div class="lbl">Off slot — Shotgun</div>${opt(b.secondary)}</div>`}`
     : `<div class="opt-grp"><div class="lbl">${b.primaryLabel || 'Primary'}</div>${b.primaries.map(opt).join('')}</div>
        <div class="opt-grp"><div class="lbl">${b.secondaryLabel || 'Secondary'}</div>${b.secondaries.map(opt).join('')}</div>`;
 
@@ -1437,6 +1868,20 @@ function render(id) {
 
     ${secHead("Weapon options")}
     ${optionsHtml}
+
+    ${b.capMath ? `${secHead("Crit chance cap")}
+      <div class="cap-math">
+        <div class="cap-head">${b.capMath.head}</div>
+        <div class="cap-col">${b.capMath.gear.map(x => `<div class="cap-line">${x}</div>`).join('')}</div>
+        ${b.capMath.weapons && b.capMath.weapons.length ? `<div class="cap-note">${b.capMath.weapons.join(' ')}</div>` : ''}
+        ${b.capMath.note ? `<div class="cap-note">${b.capMath.note}</div>` : ''}
+      </div>` : ''}
+
+    ${b.chdRules ? `${secHead("CHD vs Weapon Damage")}
+      <div class="crit-rules">
+        ${b.chdRules.map((r,i) => `<div class="crit-rule"><span class="cr-n">${i+1}</span><div>${r}</div></div>`).join('')}
+        ${b.chdBottom ? `<div class="crit-rule crit-rule-bottom"><div>${b.chdBottom}</div></div>` : ''}
+      </div>` : ''}
 
     ${secHead("Notes")}
     <div class="notes">${b.notes}</div>
