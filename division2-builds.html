@@ -524,6 +524,7 @@
   .preset-row.active .pr-dmg { color: var(--red); }
 
   .salvo-callout { display: flex; gap: 11px; align-items: flex-start; background: rgba(55,138,221,0.08); border: 1px solid rgba(55,138,221,0.35); border-left: 3px solid var(--accent-blue); padding: 11px 14px; margin: 14px 0 0; font-size: 12.5px; color: var(--text-mid); line-height: 1.55; }
+  .arswap-callout { margin: 14px 0 16px; }
   .salvo-tag { flex-shrink: 0; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #04121f; background: var(--accent-blue); padding: 2px 8px; clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px); }
   .chc-callout { display: flex; gap: 11px; align-items: flex-start; background: rgba(240,168,30,0.09); border: 1px solid rgba(240,168,30,0.38); border-left: 3px solid var(--q-named); padding: 11px 14px; margin: 14px 0 0; font-size: 12.5px; color: #e6c578; line-height: 1.55; }
   .gear-callout { display: flex; gap: 11px; align-items: flex-start; background: var(--panel); border: 1px solid var(--line-2); border-left: 3px solid var(--text-dim); padding: 11px 14px; margin: 14px 0 0; font-size: 12.5px; color: var(--text-mid); line-height: 1.55; }
@@ -542,7 +543,7 @@
   <header>
     <div class="logo"></div>
     <h1>Division 2<small>Build Reference</small></h1>
-    <button class="version" onclick="renderChangelog()">v0000004</button>
+    <button class="version" onclick="renderChangelog()">v0000005</button>
   </header>
 
   <div class="tabs" id="tabs"></div>
@@ -681,7 +682,7 @@ const ITEMS = {
     note: "full brand name for Ceska Vyroba. The hb-lmg Path B backpack rolls Vigilance (a real chest/backpack talent, +25% weapon dmg while skills on cooldown)." },
   "Fox's Prayer":       { quality: "named", slot: "Kneepads", brand: "Overlord (+10% Rifle dmg)", talent: "+8% Damage to Targets Out of Cover" },
   "Contractor's Gloves":{ quality: "named", slot: "Gloves", brand: "Petrov (+10% LMG dmg)", talent: "+8% Damage to Armor" },
-  "Hollow Man":         { quality: "named", slot: "Mask", brand: "Yaahl (1pc +10% Hazard Prot, 2pc +10% Weapon Dmg, 3pc +40% Pulse Res)", talent: "+10% Damage to Health" },
+  "Hollow Man":         { quality: "named", slot: "Mask", brand: "Yaahl (1pc +10% Hazard Protection)", namedAttr: "+10% Damage to Health (fixed minor attribute, can't roll off)", coreNote: "core defaults to Hazard Protection — recalibrate to +15% Weapon Damage for a DPS build", note: "structure: core (roll to WD) + fixed +10% DtH + 1 rollable attribute (CHC/CHD) + 1 gear mod slot" },
   "Salvo":              { quality: "named", slot: "Holster", brand: "Unit Alloys", talent: "+5% Rate of Fire (1pc brand also +5% RoF → +10% RoF from one slot)" },
   "Matador":            { quality: "named", slot: "Backpack", brand: "Walker, Harris & Co. (+5% Weapon Damage)", talent: "Perfect Adrenaline Rush — gain bonus armor near enemies; while you have bonus armor, +weapon dmg" },
   "Liquidator":         { quality: "named", slot: "Backpack", brand: "Belstone (+1% Armor Regen)", talent: "Perfect Bloodsucker — kills grant/refresh +12% bonus armor (max 10 stacks)" },
@@ -999,9 +1000,9 @@ const builds = {
       { name: "Rock and Roll",quality: "named", rec: false, stats: "Shotgun Damage / Damage to Armor", talent: "Perfectly Extra — great with Striker chest", mods: "" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: null },
+      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
       { slot: "Backpack", brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Risk Management" },
-      { slot: "Chest",    brand: "Equalizer",            quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Perfect Obliterate" },
+      { slot: "Chest",    brand: "Equalizer",            quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Perfect Obliterate" },
       { slot: "Gloves",   brand: "Overdogs",             quality: "exotic", stats: [], talent: null },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set",   stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
@@ -1024,9 +1025,9 @@ const builds = {
       { name: "Rock and Roll",quality: "named", rec: false, stats: "Shotgun Damage / Damage to Armor", talent: "Perfectly Extra — great with Striker chest", mods: "" }
     ],
     gear: [
-      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: null },
-      { slot: "Backpack", brand: "Memento",              quality: "exotic", stats: [], mod: "Critical Hit Damage", talent: null },
-      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Perfect Obliterate" },
+      { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Backpack", brand: "Memento",              quality: "exotic", stats: [], mod: "Critical Hit Chance", talent: null },
+      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Perfect Obliterate" },
       { slot: "Gloves",   brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Chance"], talent: null },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
@@ -1056,7 +1057,7 @@ const builds = {
     notes: "Striker variant built around Backfire + Nurse's Kneepads. Nurse's Kneepads (Impervious) gives +40% Hazard Protection, and stacking Hazard Protection rolls on chest/gloves/holster pushes toward high HazPro — strong synergy with Backfire. Keeps the Striker 4-piece (mask, backpack, gloves, holster) with Equalizer chest for Perfect Obliterate. Risk Management on backpack maintains stacks."
   },
   "striker-e10": {
-    name: "Striker — High Escalation",
+    name: "Striker — Team",
     presetBuild: true,
     primaryLabel: "LMG",
     primaries: [
@@ -1073,7 +1074,7 @@ const builds = {
     ],
     // Striker core shared by every preset (chest, knees, backpack + the holster stays Striker).
     core: [
-      { slot: "Chest",    brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Chest",    brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Chance", talent: null },
       { slot: "Backpack", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Risk Management" },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
@@ -1083,8 +1084,8 @@ const builds = {
         id: "hollow-contractor", label: "Hollow + Contractor", top: true,
         dmg: "DtH + DtA", use: "armor & health",
         wildcards: [
-          { slot: "Mask",   brand: "Hollow Man",           quality: "named", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Damage to Health", talent: null },
-          { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Damage to Armor"], talent: null }
+          { slot: "Mask",   brand: "Hollow Man",           quality: "named", stats: ["Weapon Damage", "Damage to Health", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
+          { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Damage to Armor"], talent: null }
         ]
       },
       {
@@ -1092,7 +1093,7 @@ const builds = {
         dmg: "Crit + DtA", use: "white armor",
         wildcards: [
           { slot: "Mask",   brand: "Ceska",                quality: "high", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
-          { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Damage to Armor"], talent: null }
+          { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Damage to Armor"], talent: null }
         ]
       },
       {
@@ -1107,7 +1108,7 @@ const builds = {
         id: "hollow-overdogs", label: "Hollow + Overdogs",
         dmg: "DtH + Amp", use: "health + add ramp",
         wildcards: [
-          { slot: "Mask",   brand: "Hollow Man", quality: "named",  stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Damage to Health", talent: null },
+          { slot: "Mask",   brand: "Hollow Man", quality: "named",  stats: ["Weapon Damage", "Damage to Health", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
           { slot: "Gloves", brand: "Overdogs",   quality: "exotic", stats: [], talent: null }
         ]
       }
@@ -1121,8 +1122,9 @@ const builds = {
       { name: "Firewall",      tier: "dps", detail: "3rd if team's failing (selfish, no team reliance) / Oro/Elmo/FAMAS/Lexington + Lefty/ACS-12 / +10–13% wpn dmg per enemy in cone" }
     ],
     salvo: "Optional: swap the holster to Salvo (+10% Rate of Fire, faster Striker stacking) on any preset if you'll get value from the fire rate. Doing so makes the helm go Striker and drops you to one helm/gloves wildcard.",
-    chcNote: "All rolls serve one target: 60% CHC total (weapon + gear COMBINED), then everything else into CHD. Your weapon changes how much CHC you need from gear — St. Elmo's gives +15% CHC innate, Ouroboros +10%, LMGs contribute their rolled 3rd-stat CHC. More CHC from the weapon = roll less CHC on gear (lean CHD). Listed gear rolls assume cap is met.",
-    notes: "Escalation Tier 10 Striker. Always 4pc Striker — chest, backpack, holster, kneepads stay Striker; helm + gloves are the 2 wildcards (pick a preset). ~99% LMG (M249B + Frenzy). Ceska = +8% CHC (while climbing to 60% cap); use Grupo (+13% CHD) once capped. Hollow Man strongest prototyped (+21% DtH). Overdogs ramps off kills (throughput, not pure boss). Contractor's adds DtA + Petrov LMG brand. Fox's Prayer is OUT on LMG (Attribute Tax — Ceska/Grupo crit wins; Fox's only BiS on true Rifle builds)."
+    chcNote: "Target ~50% CHC on gear + weapon. A group Coyote's Mask (+10%) tops you to the 60% cap — so building past ~50% yourself wastes CHC into a dead stat once Coyote lands. No Coyote in the group? Then aim closer to 60% yourself. St. Elmo's gives +15% CHC innate, Ouroboros +10%, LMGs contribute their rolled 3rd-stat CHC — more CHC from the weapon means fewer CHC rolls on gear. Everything that isn't CHC goes CHD.",
+    arSwap: "Running an AR instead of the LMG? Swap Contractor's for Overdogs (or Grupo) gloves — Contractor's Petrov LMG brand is dead on an AR. Keep 1 CHC on the gloves so your total holds.",
+    notes: "LMG is meta for High Escalation. Hollow Man is the strongest prototyped mask here (+21% DtH). Fox's Prayer is OUT on LMG — the Attribute Tax means Ceska/Grupo crit wins; Fox's is only BiS on true Rifle builds."
   },
   "ts-lmg": {
     name: "Tipping Scales — LMG",
@@ -1422,7 +1424,7 @@ function opt(w) {
 
 // Build groups by role. Order here = display order. Builds listed by key.
 const BUILD_GROUPS = [
-  { role: "DPS",        ids: ["striker-general", "striker-solo", "striker-e10", "ts-lmg"] },
+  { role: "DPS",        ids: ["striker-solo", "striker-e10", "ts-lmg"] },
   { role: "DPS Hybrid", ids: ["striker-hazpro", "hb-lmg", "hunters-fury"] },
   { role: "Healer",     ids: ["refactor-skill", "fi-healer"] },
   { role: "CC",         ids: ["ep-cc"] },
@@ -1791,10 +1793,10 @@ function rollCol(side){
     <div class="dmg-col col-${side}">
       <div class="dmg-col-h">Scenario ${side.toUpperCase()}</div>
       <div class="dmg-sub">Crit</div>
-      ${rollField(side,'chc','0')}
-      ${rollField(side,'chd','0')}
+      ${rollField(side,'chc','0','native weapon + SHD watch +10% + brand/set (Ceska, Providence…) + rolls')}
+      ${rollField(side,'chd','0','SHD watch +10% + brand/set (Grupo, Sokolov, Negotiator\u2019s…) + rolls')}
       <div class="dmg-sub">Weapon damage</div>
-      ${rollField(side,'wd','0','cores 15%/ea + exp 1%/lvl + WD & type rolls')}
+      ${rollField(side,'wd','0','cores 15%/ea + exp 1%/lvl + SHD watch +10% + WD & weapon-type rolls')}
       <div class="dmg-sub">Target buckets <span class="dmg-lab-note">(own multipliers)</span></div>
       ${rollField(side,'dta','0')}
       ${rollField(side,'dth','0')}
@@ -1993,6 +1995,7 @@ const TEAM_COMPS = [
 // ===== Changelog (version stamp opens this) =====
 // Add newest entries at the TOP. One object per published version.
 const CHANGELOG = [
+  { v: "v0000005", notes: ["Striker consolidated to two builds — Solo and Team (dropped the redundant General entry)", "All three Striker builds tuned to 4 CHC instances on gear; mask goes double CHD, holster + kneepads shared CHD across builds", "Team build (was High Escalation): CHC target corrected to ~50% (a group Coyote tops you to the 60 cap; building past ~50 wastes CHC)", "Added an AR-swap callout on the Team build — running an AR instead of the LMG, use Overdogs/Grupo gloves since Contractor's Petrov LMG brand is dead on an AR", "Fixed Hollow Man in the database + builds — +10% Damage to Health is a fixed named attribute (not a mod); core rolls to Weapon Damage", "Roll Advisor: field hints now remind you to sum SHD watch + brand/set bonuses; added common-pieces reference and a consistency note", "Trimmed Team build notes to the useful facts (LMG is meta for High Escalation, Hollow Man strongest prototyped, Fox's Prayer is out on LMG)"] },
   { v: "v0000004", notes: ["Full gear-set table added to the database (all 20 sets, verified — 2pc/3pc bonuses, 4pc talent, chest + backpack talents, core)", "Exotic weapons reconciled against the wiki (St. Elmo's, Scorpio, Ouroboros, Bluescreen, Capacitor, Backfire) — correct talents + built-in mods, removed a duplicate Backfire entry", "Weapon cores fixed to the class pattern (AR+Health, SMG+CHC, Shotgun+DtA, LMG+DtToC, etc.) with the 3 documented exceptions marked (Capacitor, Bighorn, Ravenous)", "Brand values corrected — Ceska +8% CHC, Grupo +13% CHD; removed stale crit brands (Wyvern, Douglas & Harding are now skill/utility)"] },
   { v: "v0000003", notes: ["Roll Advisor tab added (A/B per-shot compare: CHC/CHD/WD + target buckets, with common-pieces reference)", "Full brand-bonus table added to the database (all 33 brands, verified) — Roll Advisor reference generated from it", "Gear mod-slot rendering fixed (core pinned on top, mod as its own field, correct slot counts)", "Exotic gear cards now show their cores + mod slot (Memento, Overdogs, Nurse's Kneepads, BTSU)", "Hunter's Fury retuned to 51% CHC (chest-only CHC, verified optimal — cap-math and notes updated)", "Old crit A/B comparison removed from CHC Checker (superseded by Roll Advisor)"] },
   { v: "v0000002", notes: ["Hunter's Fury build added (solo/group backpack toggle, weapon tier lists, CHD-vs-WD rules callout)", "Fixed The Mop (named SIX12 shotgun, +10% Armor on Kill — was mis-stored as an SMG)", "Changelog moved to its own page (from the version stamp)"] },
@@ -2068,9 +2071,10 @@ function render(id) {
 
       ${secHead("Loadout presets")}
       <div class="preset-rows" id="preset-btns">${presetRows}</div>
+      ${b.arSwap ? `<div class="salvo-callout arswap-callout"><span class="salvo-tag">AR swap</span>${b.arSwap}</div>` : ''}
       <div id="preset-zone"></div>
 
-      ${b.chcNote ? `<div class="chc-callout"><span class="chc-tag">60% CHC</span>${b.chcNote}</div>` : ''}
+      ${b.chcNote ? `<div class="chc-callout"><span class="chc-tag">~50% CHC</span>${b.chcNote}</div>` : ''}
       <div class="salvo-callout"><span class="salvo-tag">Salvo</span>${b.salvo}</div>
 
       ${secHead("Skills & Specialization")}
@@ -2171,7 +2175,7 @@ function render(id) {
   `;
 }
 
-render("striker-general");
+render("striker-solo");
 </script>
 </body>
 </html>
