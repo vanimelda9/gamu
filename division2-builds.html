@@ -507,7 +507,7 @@
   /* e10 preset UI — combined clickable rows */
   .preset-rows { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
   .preset-row {
-    display: grid; grid-template-columns: 1fr 120px; gap: 12px; align-items: center;
+    display: grid; grid-template-columns: 1fr auto 120px; gap: 12px; align-items: center;
     width: 100%; text-align: left; cursor: pointer; font-family: inherit;
     background: var(--panel); color: var(--text-mid);
     border: 1px solid var(--line-2); border-left: 3px solid var(--line-2);
@@ -516,6 +516,7 @@
   .preset-row:hover { border-color: var(--text-dim); }
   .pr-name { font-weight: 700; font-size: 13.5px; color: var(--text); }
   .pr-top { color: var(--orange); font-size: 10px; margin-right: 6px; vertical-align: middle; }
+  .pr-chc { font-weight: 700; font-size: 10px; letter-spacing: 0.03em; color: #1a1100; background: var(--q-named); padding: 2px 8px; white-space: nowrap; justify-self: end; clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px); }
   .pr-dmg { font-weight: 700; font-size: 11px; letter-spacing: 0.02em; color: var(--text-mid); }
   .preset-row.active {
     background: rgba(255,91,74,0.12); border-color: var(--red); border-left-color: var(--red);
@@ -533,6 +534,7 @@
 
   @media (max-width: 560px) {
     .preset-row { grid-template-columns: 1fr; gap: 3px; }
+    .pr-chc { justify-self: start; }
   }
 
   @media (max-width: 560px) { .loadout, .gear, .two, .opt-cols { grid-template-columns: 1fr; } }
@@ -984,6 +986,19 @@ function statColor(stat) {
   return 'red';
 }
 
+// Count CHC instances (attributes + mod) across a list of gear pieces. Exotic/fixed-core
+// pieces (e.g. Overdogs) pull their cores from ITEMS so the count reflects reality.
+function chcCount(pieces) {
+  let n = 0;
+  (pieces || []).forEach(g => {
+    let stats = g.stats || [];
+    if ((!stats || !stats.length) && g.brand && ITEMS[g.brand] && ITEMS[g.brand].cores) stats = ITEMS[g.brand].cores;
+    n += stats.filter(s => s === 'Critical Hit Chance').length;
+    if (g.mod === 'Critical Hit Chance') n += 1;
+  });
+  return n;
+}
+
 const builds = {
   "striker-general": {
     name: "Striker — General",
@@ -1027,7 +1042,7 @@ const builds = {
     gear: [
       { slot: "Mask",     brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
       { slot: "Backpack", brand: "Memento",              quality: "exotic", stats: [], mod: "Critical Hit Chance", talent: null },
-      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Perfect Obliterate" },
+      { slot: "Chest",    brand: "Equalizer",            quality: "named",  stats: ["Weapon Damage", "Critical Hit Chance", "Critical Hit Chance"], mod: "Critical Hit Chance", talent: "Perfect Obliterate" },
       { slot: "Gloves",   brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Chance"], talent: null },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set",    stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
@@ -1074,8 +1089,8 @@ const builds = {
     ],
     // Striker core shared by every preset (chest, knees, backpack + the holster stays Striker).
     core: [
-      { slot: "Chest",    brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Chance", talent: null },
-      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Chance", talent: "Risk Management" },
+      { slot: "Chest",    brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+      { slot: "Backpack", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: "Risk Management" },
       { slot: "Holster",  brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], talent: null },
       { slot: "Kneepads", brand: "Striker's Battlegear", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], talent: null }
     ],
@@ -1084,7 +1099,7 @@ const builds = {
         id: "hollow-contractor", label: "Hollow + Contractor", top: true,
         dmg: "DtH + DtA", use: "armor & health",
         wildcards: [
-          { slot: "Mask",   brand: "Hollow Man",           quality: "named", stats: ["Weapon Damage", "Damage to Health", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
+          { slot: "Mask",   brand: "Hollow Man",           quality: "named", stats: ["Weapon Damage", "Damage to Health", "Critical Hit Chance"], mod: "Critical Hit Chance", talent: null },
           { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Damage to Armor"], talent: null }
         ]
       },
@@ -1092,7 +1107,7 @@ const builds = {
         id: "ceska-contractor", label: "Ceska + Contractor",
         dmg: "Crit + DtA", use: "white armor",
         wildcards: [
-          { slot: "Mask",   brand: "Ceska",                quality: "high", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+          { slot: "Mask",   brand: "Ceska",                quality: "high", stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
           { slot: "Gloves", brand: "Contractor's Gloves",  quality: "named", stats: ["Weapon Damage", "Critical Hit Chance", "Damage to Armor"], talent: null }
         ]
       },
@@ -1100,7 +1115,7 @@ const builds = {
         id: "ceska-overdogs", label: "Ceska + Overdogs", top: true,
         dmg: "Crit + Amp", use: "spongy add-clearing",
         wildcards: [
-          { slot: "Mask",   brand: "Ceska",    quality: "high", stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
+          { slot: "Mask",   brand: "Ceska",    quality: "high", stats: ["Weapon Damage", "Critical Hit Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
           { slot: "Gloves", brand: "Overdogs", quality: "exotic", stats: [], talent: null }
         ]
       },
@@ -1108,7 +1123,7 @@ const builds = {
         id: "hollow-overdogs", label: "Hollow + Overdogs",
         dmg: "DtH + Amp", use: "health + add ramp",
         wildcards: [
-          { slot: "Mask",   brand: "Hollow Man", quality: "named",  stats: ["Weapon Damage", "Damage to Health", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
+          { slot: "Mask",   brand: "Hollow Man", quality: "named",  stats: ["Weapon Damage", "Damage to Health", "Critical Hit Chance"], mod: "Critical Hit Chance", talent: null },
           { slot: "Gloves", brand: "Overdogs",   quality: "exotic", stats: [], talent: null }
         ]
       }
@@ -1123,7 +1138,7 @@ const builds = {
     ],
     salvo: "Optional: swap the holster to Salvo (+10% Rate of Fire, faster Striker stacking) on any preset if you'll get value from the fire rate. Doing so makes the helm go Striker and drops you to one helm/gloves wildcard.",
     chcNote: "Target ~50% CHC on gear + weapon. A group Coyote's Mask (+10%) tops you to the 60% cap — so building past ~50% yourself wastes CHC into a dead stat once Coyote lands. No Coyote in the group? Then aim closer to 60% yourself. St. Elmo's gives +15% CHC innate, Ouroboros +10%, LMGs contribute their rolled 3rd-stat CHC — more CHC from the weapon means fewer CHC rolls on gear. Everything that isn't CHC goes CHD.",
-    arSwap: "Running an AR instead of the LMG? Swap Contractor's for Overdogs (or Grupo) gloves — Contractor's Petrov LMG brand is dead on an AR. Keep 1 CHC on the gloves so your total holds.",
+    arSwap: "Running an AR instead of the LMG? Swap Contractor's for Overdogs or Grupo gloves — Contractor's Petrov LMG brand is dead on an AR. Either way keep 1 CHC on the gloves so your total holds: Overdogs has it as a fixed core (free), but Grupo has no native CHC — so a Grupo glove needs 1 CHC rolled on it (rest CHD).",
     notes: "LMG is meta for High Escalation. Hollow Man is the strongest prototyped mask here (+21% DtH). Fox's Prayer is OUT on LMG — the Attribute Tax means Ceska/Grupo crit wins; Fox's is only BiS on true Rifle builds."
   },
   "ts-lmg": {
@@ -1995,7 +2010,7 @@ const TEAM_COMPS = [
 // ===== Changelog (version stamp opens this) =====
 // Add newest entries at the TOP. One object per published version.
 const CHANGELOG = [
-  { v: "v0000005", notes: ["Striker consolidated to two builds — Solo and Team (dropped the redundant General entry)", "All three Striker builds tuned to 4 CHC instances on gear; mask goes double CHD, holster + kneepads shared CHD across builds", "Team build (was High Escalation): CHC target corrected to ~50% (a group Coyote tops you to the 60 cap; building past ~50 wastes CHC)", "Added an AR-swap callout on the Team build — running an AR instead of the LMG, use Overdogs/Grupo gloves since Contractor's Petrov LMG brand is dead on an AR", "Fixed Hollow Man in the database + builds — +10% Damage to Health is a fixed named attribute (not a mod); core rolls to Weapon Damage", "Roll Advisor: field hints now remind you to sum SHD watch + brand/set bonuses; added common-pieces reference and a consistency note", "Trimmed Team build notes to the useful facts (LMG is meta for High Escalation, Hollow Man strongest prototyped, Fox's Prayer is out on LMG)"] },
+  { v: "v0000005", notes: ["Striker consolidated to two builds — Solo and Team (dropped the redundant General entry)", "Solo tuned to 55% CHC (5 CHC instances, Equalizer carries the crit) — self-caps, no Coyote needed", "Team build (was High Escalation) rebuilt around a group Coyote: target ~50% gear CHC so Coyote (+10%) tops you to the 60 cap without wasting CHC. All 4 presets verified — no overcaps (Hollow presets hit 60, Ceska presets 56)", "Team presets made internally consistent — each wildcard piece (Hollow/Ceska mask, Contractor/Overdogs gloves) has ONE fixed CHC roll; shared Striker pieces stay identical across presets", "Every build now shows its CHC roll count — a badge on each Team preset row and a 'CHC target' callout on Solo (counted live from actual rolls, attributes + mods combined)", "AR-swap callout on Team build, placed under the preset bar — running an AR, use Overdogs or Grupo gloves (Contractor's Petrov LMG brand is dead on an AR); note spells out that Grupo needs 1 CHC rolled while Overdogs has it as a free core", "Fixed Hollow Man in the database + builds — +10% Damage to Health is a fixed named attribute (not a mod); core rolls to Weapon Damage", "Fixed the Ceska mask (was missing an attribute slot — now core + 2 attrs + mod)", "Roll Advisor: field hints now remind you to sum SHD watch + brand/set bonuses; added common-pieces reference and a consistency note", "Trimmed Team build notes to the useful facts (LMG is meta for High Escalation, Hollow Man strongest prototyped, Fox's Prayer is out on LMG)"] },
   { v: "v0000004", notes: ["Full gear-set table added to the database (all 20 sets, verified — 2pc/3pc bonuses, 4pc talent, chest + backpack talents, core)", "Exotic weapons reconciled against the wiki (St. Elmo's, Scorpio, Ouroboros, Bluescreen, Capacitor, Backfire) — correct talents + built-in mods, removed a duplicate Backfire entry", "Weapon cores fixed to the class pattern (AR+Health, SMG+CHC, Shotgun+DtA, LMG+DtToC, etc.) with the 3 documented exceptions marked (Capacitor, Bighorn, Ravenous)", "Brand values corrected — Ceska +8% CHC, Grupo +13% CHD; removed stale crit brands (Wyvern, Douglas & Harding are now skill/utility)"] },
   { v: "v0000003", notes: ["Roll Advisor tab added (A/B per-shot compare: CHC/CHD/WD + target buckets, with common-pieces reference)", "Full brand-bonus table added to the database (all 33 brands, verified) — Roll Advisor reference generated from it", "Gear mod-slot rendering fixed (core pinned on top, mod as its own field, correct slot counts)", "Exotic gear cards now show their cores + mod slot (Memento, Overdogs, Nurse's Kneepads, BTSU)", "Hunter's Fury retuned to 51% CHC (chest-only CHC, verified optimal — cap-math and notes updated)", "Old crit A/B comparison removed from CHC Checker (superseded by Roll Advisor)"] },
   { v: "v0000002", notes: ["Hunter's Fury build added (solo/group backpack toggle, weapon tier lists, CHD-vs-WD rules callout)", "Fixed The Mop (named SIX12 shotgun, +10% Armor on Kill — was mis-stored as an SMG)", "Changelog moved to its own page (from the version stamp)"] },
@@ -2057,6 +2072,7 @@ function render(id) {
     const presetRows = b.presets.map(p =>
       `<button class="preset-row" data-preset="${p.id}" onclick="renderPreset('${id}','${p.id}')">
         <span class="pr-name">${p.top ? '<span class="pr-top">◆</span>' : ''}${p.label}</span>
+        <span class="pr-chc">${chcCount([...(b.core||[]), ...(p.wildcards||[])])} CHC</span>
         <span class="pr-dmg">${p.dmg}</span>
       </button>`
     ).join('');
@@ -2145,6 +2161,7 @@ function render(id) {
         return gearCard(id, g);
       }).join('')}
     </div>
+    ${chcCount((b.gear||[]).map(x => x.toggle ? x.toggle.solo : x)) > 0 ? `<div class="gear-callout"><span class="gear-tag">CHC target</span>${chcCount((b.gear||[]).map(x => x.toggle ? x.toggle.solo : x))} CHC rolls on gear (attributes + mods combined)</div>` : ''}
     ${b.gearNote ? `<div class="gear-callout"><span class="gear-tag">Rolls</span>${b.gearNote}</div>` : ''}
 
     ${secHead("Skills & Specialization")}
