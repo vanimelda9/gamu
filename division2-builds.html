@@ -545,7 +545,7 @@
   <header>
     <div class="logo"></div>
     <h1>Division 2<small>Build Reference</small></h1>
-    <button class="version" onclick="renderChangelog()">v0000005</button>
+    <button class="version" onclick="renderChangelog()">v0000006</button>
   </header>
 
   <div class="tabs" id="tabs"></div>
@@ -564,9 +564,9 @@ const ITEMS = {
   // ---- Weapons: Assault Rifles ----
   "St. Elmo's Engine": { quality: "exotic", type: "AR", talent: "Actum Est — shooting stacks up to 100; at 100 the next magazine is loaded with Shock ammo",
     cores: ["Assault Rifle Damage", "Health Damage"], thirdAttr: "rerollable (random 3rd DPS stat — reroll or farm for a better drop)", builtInMods: "Optic +15% CHD, Muzzle +15% CHC, Grip +10% Weapon Handling, Mag +30 rounds (all fixed)", aka: "exotic LVOA-C; top-tier AR" },
-  "Lexington":         { quality: "named",  type: "AR", innate: "DTTOC", note: "+5% base dmg over M4; strong high-RoF AR for Striker stacking" },
+  "Lexington":         { quality: "named",  type: "AR", innate: "DTTOC", underbarrel: "LONG rail — takes the laser pointer (FAMAS can't)", note: "+5% base dmg over M4; strong high-RoF AR for Striker stacking" },
   "Police M4":         { quality: "high",   type: "AR", note: "top-tier baseline AR — high RoF, clean handling; workhorse for Striker builds" },
-  "FAMAS":             { quality: "high",   type: "AR", note: "FAMAS 2000 — top-tier AR, very high RoF" },
+  "FAMAS":             { quality: "high",   type: "AR", underbarrel: "SHORT rail — cannot equip the laser pointer", note: "FAMAS 2000 — top-tier AR, very high RoF" },
   "Capacitor":         { quality: "exotic", type: "AR", talent: "Capacitance — shooting builds stacks up to 40, each +1.5% Skill Damage; after 5s stacks decay 1/sec. Also +7.5% Weapon Damage per Tech Skill Tier.",
     cores: ["Assault Rifle Damage", "Damage to Armor"], thirdAttr: "rerollable (Skill Dmg / Haste for skill builds)", coreNote: "exception to the AR class pattern — 2nd core is Damage to Armor, not Health Damage",
     builtInMods: "Optic +10% CHC, Muzzle +30% CHD, Mag +11 rounds, Grip +10% Weapon Handling (all fixed)", aka: "exotic PDR-C; the skill-build AR" },
@@ -578,7 +578,7 @@ const ITEMS = {
     cores: ["SMG Damage", "Critical Hit Chance"], thirdAttr: "rerollable (DTTOOC / DTA)",
     builtInMods: "Optic +10% CHD, Underbarrel +10% CHC, Mag +25% Reload Speed, Muzzle +10% Rate of Fire (all fixed)",
     aka: "exotic Vector SBR 9mm variant; ~1500 base RPM (highest fire rate); Paradise Lost Incursion only" },
-  "Vector SBR":        { quality: "high",   type: "SMG", cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], note: "base Vector — high burst DPS (.45 or 9mm); Dark Winter/Ouroboros are its named/exotic variants" },
+  "Vector SBR":        { quality: "high",   type: "SMG", cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], aka: "Vector SBR .45 ACP", note: "the .45 platform — Dark Winter is its named variant (Perfect Killer). Higher per-shot damage, smaller mag. The Tactical Vector 9mm is a SEPARATE platform (bigger mag, full mod slots) and is the better DPS pick for HF." },
   "SIG MPX":           { quality: "high",   type: "SMG", cores: ["SMG Damage", "Critical Hit Chance"], note: "sustained mid-range control SMG" },
   "Backfire":          { quality: "exotic", type: "SMG", talent: "Payment in Kind — dealing damage stacks +2% CHD up to 100 (10s), for +200% CHD at max. On reload, applies a 10s bleed to yourself dealing 0.5% armor damage per stack (max Hazard Protection negates the bleed).",
     cores: ["SMG Damage", "Critical Hit Chance"], thirdAttr: "rerollable",
@@ -605,10 +605,11 @@ const ITEMS = {
     aka: "exotic SIX12; the status/debuff shotgun" },
   "Dark Winter":       { quality: "named", type: "SMG", talent: "Perfect Killer — a crit kill grants +50% CHD for 10s",
     cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], thirdAttr: "rerollable (DTTOOC BIS)",
-    aka: "named Vector SBR .45 — Perfect Killer pre-baked; DZ-only farm" },
+    underbarrel: "LONG rail — can equip the laser pointer (incl. Technician's Linked Laser Pointer). The Tactical Vector 9mm cannot.", aka: "named Vector SBR .45 — Perfect Killer pre-baked; DZ-only farm. Trades the 9mm's raw DPS for long-rail utility: laser/auto-pulse = awareness in CQC." },
   "Tactical Vector 9mm": { quality: "high", type: "SMG", talent: "rollable (Killer = room-clear BIS / Strained = boss ramp)",
     cores: ["SMG Damage", "Critical Hit Chance (up to 21% native)"], thirdAttr: "rerollable (DTTOOC)",
-    aka: "high-end Vector; takes full mods unlike Dark Winter's fixed talent" },
+    aka: "Tactical Vector SBR 9mm — the 9mm platform (stockless, 19-round mag, higher damage/faster reloads); a SEPARATE weapon from the .45, not just a re-skin. Best-DPS Vector for HF; takes full mods unlike Dark Winter's fixed talent.",
+    underbarrel: "SHORT rail — cannot equip the laser pointer. Dark Winter (.45) has the long rail, so it wins when you want laser/auto-pulse utility over raw DPS." },
   "M870":              { quality: "high", type: "Shotgun", talent: "rollable (Killer)",
     cores: ["Shotgun Damage", "Damage to Armor"], thirdAttr: "rerollable",
     aka: "pump-action; highest per-shot dmg, one-taps reds/purples; needs aim. Tsunami = named M870" },
@@ -1004,8 +1005,8 @@ const builds = {
     name: "Striker — General",
     primaries: [
       { name: "St. Elmo's Engine", quality: "exotic", rec: true,  stats: "AR Damage / Health Damage / 3rd (rerollable)", talent: "Actum Est — 100 shooting stacks loads next mag with Shock ammo", mods: "fixed exotic mods: +15% CHD, +15% CHC, +10% handling, +30 rounds" },
-      { name: "Lexington",          quality: "named",  rec: false, stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Killer (preferred) or Measured", mods: "3x CHD" },
-      { name: "FAMAS",              quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Killer (preferred) or Measured", mods: "3x CHD" },
+      { name: "Lexington",          quality: "named",  rec: false, stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Killer (preferred) or Measured", mods: "Optic → CHD. Muzzle → CHD. Underbarrel → CHC laser. Mag → capacity/reload." },
+      { name: "FAMAS",              quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Killer (preferred) or Measured", mods: "Optic → CHD. Muzzle → CHD. Underbarrel → CHC laser. Mag → capacity/reload." },
       { name: "Ouroboros",          quality: "exotic", rec: false, stats: "", talent: "", mods: "" }
     ],
     secondaries: [
@@ -1030,8 +1031,8 @@ const builds = {
     name: "Striker — Solo",
     primaries: [
       { name: "St. Elmo's Engine", quality: "exotic", rec: true,  stats: "AR Damage / Health Damage / 3rd (rerollable)", talent: "Actum Est — 100 shooting stacks loads next mag with Shock ammo", mods: "fixed exotic mods: +15% CHD, +15% CHC, +10% handling, +30 rounds" },
-      { name: "Lexington",          quality: "named",  rec: false, stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Killer (preferred) or Measured", mods: "3x CHD" },
-      { name: "FAMAS",              quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Killer (preferred) or Measured", mods: "3x CHD" }
+      { name: "Lexington",          quality: "named",  rec: false, stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Killer (preferred) or Measured", mods: "Optic → CHD. Muzzle → CHD. Underbarrel → CHC laser. Mag → capacity/reload." },
+      { name: "FAMAS",              quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Killer (preferred) or Measured", mods: "Optic → CHD. Muzzle → CHD. Underbarrel → CHC laser. Mag → capacity/reload." }
     ],
     secondaries: [
       { name: "Stack Broker", quality: "named", rec: true,  stats: "Shotgun Damage / enhanced RoF", talent: "Back and Forth — fastest way to stack Striker", mods: "" },
@@ -1076,8 +1077,8 @@ const builds = {
     presetBuild: true,
     primaryLabel: "LMG",
     primaries: [
-      { name: "M249B", quality: "high",  rec: true,  stats: "LMG Damage / 3rd: CHC", talent: "Frenzy", mods: "CHC/CHD priority (60% cap → CHD). No laser — no pulse synergy on Striker." },
-      { name: "GR9",   quality: "high",  rec: false, stats: "LMG Damage / 3rd: CHC", talent: "Measured", mods: "3x CHC (no laser slot)" },
+      { name: "M249B", quality: "high",  rec: true,  stats: "LMG Damage / 3rd: CHC", talent: "Frenzy", mods: "Optic → CHC. Muzzle → CHD. Mag → Large Pouch (Gunner). MK46 family has NO laser rail, so only one CHC mod slot." },
+      { name: "GR9",   quality: "high",  rec: false, stats: "LMG Damage / 3rd: CHC", talent: "Measured", mods: "Optic → CHC. Muzzle → CHD. Mag → capacity/reload. NO laser rail, so only one CHC mod slot." },
       { name: "Dare",  quality: "named", rec: false, stats: "LMG Damage", talent: "", mods: "" }
     ],
     secondaryLabel: "Other (AR / SMG)",
@@ -1144,10 +1145,10 @@ const builds = {
   "ts-lmg": {
     name: "Tipping Scales — LMG",
     primaries: [
-      { name: "M249B", quality: "high", rec: true, stats: "LMG Damage / 3rd: CHC", talent: "Frenzy", mods: "3x CHC (no laser — MK46 family has no laser rail)" }
+      { name: "M249B", quality: "high", rec: true, stats: "LMG Damage / 3rd: CHC", talent: "Frenzy", mods: "Optic → CHC. Muzzle → CHD. Mag → capacity/reload. NO laser rail, so only one CHC mod slot." }
     ],
     secondaries: [
-      { name: "GR9", quality: "high", rec: true, stats: "LMG Damage / 3rd: CHC", talent: "Measured", mods: "3x CHC" }
+      { name: "GR9", quality: "high", rec: true, stats: "LMG Damage / 3rd: CHC", talent: "Measured", mods: "Optic → CHC. Underbarrel → CHC laser. Muzzle → CHD. Mag → capacity/reload." }
     ],
     gear: [
       { slot: "Mask",     brand: "Tipping Scales", quality: "set",   stats: ["Weapon Damage", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
@@ -1286,14 +1287,14 @@ const builds = {
     lmgLabel: "LMG (not advised)",
     secondary: { name: "ACS-12", quality: "high", stats: "Shotgun Damage / DTTOC", talent: "Flatline", mods: "Linked Laser Pointer", note: "or Lefty (named ACS-12, Perfect Sledgehammer) for boss armor debuff" },
     ars: [
-      { name: "Lexington",         quality: "named",  rec: true,  stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Flatline", mods: "laser + 2x CHC" },
-      { name: "Police M4",         quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Flatline", mods: "laser + 2x CHC" },
+      { name: "Lexington",         quality: "named",  rec: true,  stats: "AR Damage / Health Damage / DTTOC (innate)", talent: "Flatline", mods: "Optic → CHC. Underbarrel → CHC laser. Muzzle → CHD. Mag → capacity/reload." },
+      { name: "Police M4",         quality: "high",   rec: false, stats: "AR Damage / Health Damage / DTTOC", talent: "Flatline", mods: "Optic → CHC. Underbarrel → CHC laser. Muzzle → CHD. Mag → capacity/reload." },
       { name: "St. Elmo's Engine", quality: "exotic", rec: false, stats: "", talent: "", mods: "" },
-      { name: "Vector SBR",        quality: "high",   rec: false, stats: "SMG Damage", talent: "Flatline", mods: "laser + 2x CHC", note: "non-AR: max burst DPS" },
-      { name: "SIG MPX",           quality: "high",   rec: false, stats: "SMG Damage", talent: "Flatline", mods: "laser + 2x CHC", note: "non-AR: sustained mid-range" }
+      { name: "Vector SBR",        quality: "high",   rec: false, stats: "SMG Damage", talent: "Flatline", mods: "Optic → CHC. Underbarrel → CHC laser. Muzzle → CHD. Mag → capacity/reload.", note: "non-AR: max burst DPS" },
+      { name: "SIG MPX",           quality: "high",   rec: false, stats: "SMG Damage", talent: "Flatline", mods: "Optic → CHC. Underbarrel → CHC laser. Muzzle → CHD. Mag → capacity/reload.", note: "non-AR: sustained mid-range" }
     ],
     lmgs: [
-      { name: "Tactical M249 Para", quality: "high",   rec: false, stats: "LMG Damage / 2x CHC", talent: "Flatline", mods: "laser + 2x CHC", note: "LMG is NOT a good option here — listed only because it can take the laser. Prefer AR/SMG." }
+      { name: "Tactical M249 Para", quality: "high",   rec: false, stats: "LMG Damage / 2x CHC", talent: "Flatline", mods: "Optic → CHC. Underbarrel → CHC laser. Muzzle → CHD. Mag → capacity/reload.", note: "LMG is NOT a good option here — listed only because it can take the laser. Prefer AR/SMG." }
     ],
     gear: [
       { slot: "Mask",     brand: "Heartbreaker",           quality: "set",    stats: ["Armor", "Critical Hit Chance"], mod: "Critical Hit Damage", talent: null },
@@ -1322,16 +1323,16 @@ const builds = {
     offLabel: "Shotgun",
     offSlot: false,
     toggleGroups: true,
-    secondary: { name: "Scorpio", quality: "exotic", stats: "", talent: "", mods: "", note: "shotgun-slot BIS" },
+    secondary: { name: "Scorpio", quality: "exotic", stats: "Shotgun Damage / Damage to Armor / DTTOOC", talent: "", mods: "fixed exotic mods: Optic +10% CHC, Mag +10% reload, Grip +10% handling, Muzzle +10% stability", note: "shotgun-slot BIS" },
     ars: [
-      { name: "Dark Winter",         quality: "named", rec: true,  stats: "SMG Damage", talent: "Perfect Killer", mods: "", note: "god-roll Vector — Perfect Killer baked in" },
-      { name: "Tactical Vector 9mm", quality: "high",  rec: false, stats: "SMG Damage / CHC / CHD", talent: "Killer", mods: "full mods (extra CHC/CHD)", note: "Killer = room-clear BIS; Strained = boss ramp. Takes mods (Ouro can't)." },
-      { name: "Ouroboros",           quality: "exotic", rec: false, stats: "", talent: "", mods: "", note: "easy-mode: ~1500 RPM, highest fire rate, forgiving spray; talent Rule Them All spreads status effects back at enemies" }
+      { name: "Tactical Vector 9mm", quality: "high",  rec: true,  stats: "SMG Damage / CHC / DTTOOC", talent: "Killer", mods: "Optic → CHC. Underbarrel → CHC (small laser; short rail). Muzzle → CHD. Mag → capacity/reload.", note: "Best DPS Vector. Killer = room-clear BIS; Strained = boss ramp. Takes mods (Ouro can't). Short underbarrel — no long laser." },
+      { name: "Dark Winter",         quality: "named", rec: false, stats: "SMG Damage / CHC / DTTOOC", talent: "Perfect Killer", mods: "Optic → CHC. Underbarrel → CHC laser, LONG rail (can run Technician Linked Laser for auto-pulse). Muzzle → CHD. Mag → capacity/reload.", note: "Named Vector .45 — Perfect Killer baked in. Loses DPS to the Tac 9mm, but has the LONG underbarrel rail. Only worth it if you swap to Technician for the Linked Laser Pointer (auto-pulse); on Gunner that edge is wasted." },
+      { name: "Ouroboros",           quality: "exotic", rec: false, stats: "SMG Damage / CHC / DTTOOC", talent: "", mods: "fixed exotic mods: Optic +10% CHD, Underbarrel +10% CHC, Mag +25% reload, Muzzle +10% RoF", note: "easy-mode: ~1500 RPM, highest fire rate, forgiving spray; talent Rule Them All spreads status effects back at enemies" }
     ],
     lmgs: [
-      { name: "Scorpio", quality: "exotic", rec: true,  stats: "", talent: "", mods: "", note: "shotgun BIS" },
-      { name: "M870",    quality: "high",   rec: false, stats: "Shotgun Damage", talent: "Killer", mods: "", note: "one-tap king (highest per-shot); pump-action, needs aim. Tsunami = named M870." },
-      { name: "The Mop", quality: "named",  rec: false, stats: "Armor on Kill %", talent: "", mods: "", note: "survival: +10% AoK → ~40% with Gunner + HF. Trades a dmg talent for utility." }
+      { name: "Scorpio", quality: "exotic", rec: true,  stats: "Shotgun Damage / Damage to Armor / DTTOOC", talent: "", mods: "fixed exotic mods: Optic +10% CHC, Mag +10% reload, Grip +10% handling, Muzzle +10% stability", note: "shotgun BIS" },
+      { name: "M870",    quality: "high",   rec: false, stats: "Shotgun Damage / Damage to Armor / DTTOOC", talent: "Killer", mods: "Optic → CHC. Muzzle → CHD. Underbarrel → CHC laser or grip. Mag → capacity/reload.", note: "one-tap king (highest per-shot); pump-action, needs aim. Tsunami = named M870." },
+      { name: "The Mop", quality: "named",  rec: false, stats: "Shotgun Damage / Damage to Armor / +10% Armor on Kill (fixed named)", talent: "", mods: "Optic → CHC. Muzzle → CHD. Underbarrel → CHC laser or grip. Mag → capacity/reload.", note: "survival: +10% AoK → ~40% with Gunner + HF. Trades a dmg talent for utility." }
     ],
     gear: [
       { slot: "Mask",     brand: "Hunter's Fury", quality: "set", stats: ["Weapon Damage", "Critical Hit Damage"], mod: "Critical Hit Damage", talent: null },
@@ -1350,7 +1351,7 @@ const builds = {
       { slot: "Kneepads", brand: "Hunter's Fury", quality: "set", stats: ["Armor", "Critical Hit Damage"], talent: null }
     ],
     gearNote: "The point: hit 51% CHC on the SMG from weapon + SHD + Ceska chest alone, so the backpack never touches crit — swapping Memento (solo) ↔ Grupo (group) keeps CHC identical. Only the Ceska chest rolls CHC (attribute + mod); all four HF pieces (Mask/Gloves/Holster/Kneepads) roll CHD. Holster + Kneepads run blue Armor cores for the shield; Mask + Gloves are red WD cores.",
-    skills: ["Hive", "Crusader Shield (if running a shield)"],
+    skills: ["Reviver Hive", "Crusader Shield (if running a shield)"],
     specialization: "Gunner",
     specOptions: [
       { name: "Gunner",     tier: "core",  detail: "S-tier, the answer. +10% Armor on Kill (stacks with HF 20% → 30% AoK), +RoF on kill (near 100% uptime chaining kills), Banshee Pulse panic button." },
@@ -2010,6 +2011,7 @@ const TEAM_COMPS = [
 // ===== Changelog (version stamp opens this) =====
 // Add newest entries at the TOP. One object per published version.
 const CHANGELOG = [
+  { v: "v0000006", notes: ["Hunter's Fury: recommended SMG swapped to the Tactical Vector 9mm (best DPS) — Dark Winter moved to alternate, with a note that it's only worth it if you also run Technician for the Linked Laser Pointer", "Documented the underbarrel rail split — Dark Winter and Lexington have LONG rails (can take the laser); Tactical Vector 9mm and FAMAS are SHORT (can't)", "Clarified the Vector platforms in the database — the .45 (Dark Winter's base) and the Tactical 9mm are separate weapons, not a caliber re-skin", "Hunter's Fury weapon third stats corrected to Damage Out of Cover (several were showing CHD); shotgun core pairs fixed to Shotgun Damage / Damage to Armor", "Every Hunter's Fury weapon now lists its attachment loadout — exotics show their verified fixed mods, rollable weapons show slot priorities", "Fixed impossible weapon-mod entries across builds (several listed '3x CHC' — CHC only exists on the optic and underbarrel slots)", "Hunter's Fury skill set to Reviver Hive specifically"] },
   { v: "v0000005", notes: ["Striker consolidated to two builds — Solo and Team (dropped the redundant General entry)", "Solo tuned to 55% CHC (5 CHC instances, Equalizer carries the crit) — self-caps, no Coyote needed", "Team build (was High Escalation) rebuilt around a group Coyote: target ~50% gear CHC so Coyote (+10%) tops you to the 60 cap without wasting CHC. All 4 presets verified — no overcaps (Hollow presets hit 60, Ceska presets 56)", "Team presets made internally consistent — each wildcard piece (Hollow/Ceska mask, Contractor/Overdogs gloves) has ONE fixed CHC roll; shared Striker pieces stay identical across presets", "Every build now shows its CHC roll count — a badge on each Team preset row and a 'CHC target' callout on Solo (counted live from actual rolls, attributes + mods combined)", "AR-swap callout on Team build, placed under the preset bar — running an AR, use Overdogs or Grupo gloves (Contractor's Petrov LMG brand is dead on an AR); note spells out that Grupo needs 1 CHC rolled while Overdogs has it as a free core", "Fixed Hollow Man in the database + builds — +10% Damage to Health is a fixed named attribute (not a mod); core rolls to Weapon Damage", "Fixed the Ceska mask (was missing an attribute slot — now core + 2 attrs + mod)", "Roll Advisor: field hints now remind you to sum SHD watch + brand/set bonuses; added common-pieces reference and a consistency note", "Trimmed Team build notes to the useful facts (LMG is meta for High Escalation, Hollow Man strongest prototyped, Fox's Prayer is out on LMG)"] },
   { v: "v0000004", notes: ["Full gear-set table added to the database (all 20 sets, verified — 2pc/3pc bonuses, 4pc talent, chest + backpack talents, core)", "Exotic weapons reconciled against the wiki (St. Elmo's, Scorpio, Ouroboros, Bluescreen, Capacitor, Backfire) — correct talents + built-in mods, removed a duplicate Backfire entry", "Weapon cores fixed to the class pattern (AR+Health, SMG+CHC, Shotgun+DtA, LMG+DtToC, etc.) with the 3 documented exceptions marked (Capacitor, Bighorn, Ravenous)", "Brand values corrected — Ceska +8% CHC, Grupo +13% CHD; removed stale crit brands (Wyvern, Douglas & Harding are now skill/utility)"] },
   { v: "v0000003", notes: ["Roll Advisor tab added (A/B per-shot compare: CHC/CHD/WD + target buckets, with common-pieces reference)", "Full brand-bonus table added to the database (all 33 brands, verified) — Roll Advisor reference generated from it", "Gear mod-slot rendering fixed (core pinned on top, mod as its own field, correct slot counts)", "Exotic gear cards now show their cores + mod slot (Memento, Overdogs, Nurse's Kneepads, BTSU)", "Hunter's Fury retuned to 51% CHC (chest-only CHC, verified optimal — cap-math and notes updated)", "Old crit A/B comparison removed from CHC Checker (superseded by Roll Advisor)"] },
